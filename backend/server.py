@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 # Environment variables
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 AFFILIATE_TAG_AMAZON = os.getenv("AFFILIATE_TAG_AMAZON", "your-affiliate-tag")
 
 # Request models
@@ -69,7 +69,7 @@ async def call_deepseek_api(prompt: str, temperature: float = 0.7, max_tokens: i
     """Call DeepSeek API with the given prompt"""
     try:
         headers = {
-            "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json"
         }
         
