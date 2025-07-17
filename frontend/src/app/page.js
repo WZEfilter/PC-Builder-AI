@@ -64,7 +64,11 @@ export default function Home() {
       
     } catch (error) {
       console.error('Error:', error)
-      alert('Failed to generate PC build. Please try again.')
+      if (error.name === 'AbortError') {
+        alert('Request timed out. Please try again.')
+      } else {
+        alert('Failed to generate PC build. Please try again.')
+      }
     } finally {
       setIsLoading(false)
     }
