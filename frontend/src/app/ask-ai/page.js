@@ -82,24 +82,24 @@ export default function AskAI() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-slate-800 shadow-lg border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <button
                 onClick={() => router.push('/')}
-                className="text-blue-600 hover:text-blue-800 mr-4"
+                className="text-blue-400 hover:text-blue-300 mr-4"
               >
                 ← Back
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">PC Builder AI</h1>
+              <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-500 hover:text-gray-900">Home</a>
-              <a href="/ask-ai" className="text-blue-600 font-medium">Ask AI</a>
-              <a href="/blog" className="text-gray-500 hover:text-gray-900">Blog</a>
+              <a href="/" className="text-slate-300 hover:text-white">Home</a>
+              <a href="/ask-ai" className="text-blue-400 font-medium">Ask AI</a>
+              <a href="/blog" className="text-slate-300 hover:text-white">Blog</a>
             </nav>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function AskAI() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
           {/* Chat Header */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
             <h1 className="text-2xl font-bold text-white mb-2">Ask the AI</h1>
@@ -117,15 +117,15 @@ export default function AskAI() {
           </div>
 
           {/* Chat Messages */}
-          <div className="h-96 overflow-y-auto p-6 space-y-4">
+          <div className="h-96 overflow-y-auto p-6 space-y-4 bg-slate-900">
             {messages.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">
-                <div className="bg-gray-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="text-center text-slate-400 py-8">
+                <div className="bg-slate-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center border border-slate-700">
+                  <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.484L3 21l2.516-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
                   </svg>
                 </div>
-                <p className="text-lg font-medium mb-2">Start a conversation!</p>
+                <p className="text-lg font-medium mb-2 text-white">Start a conversation!</p>
                 <p>Ask me anything about PC building, components, or compatibility.</p>
               </div>
             ) : (
@@ -134,17 +134,17 @@ export default function AskAI() {
                   <div className={`max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl px-4 py-3 ${
                     message.role === 'user' 
                       ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-100 text-gray-900'
+                      : 'bg-slate-700 text-slate-100 border border-slate-600'
                   }`}>
                     {message.role === 'user' ? (
                       <p className="text-sm">{message.content}</p>
                     ) : (
-                      <div className="prose prose-sm max-w-none">
+                      <div className="prose prose-sm max-w-none prose-invert">
                         <ReactMarkdown
                           remarkPlugins={[remarkGfm]}
                           components={{
                             p: ({ node, ...props }) => (
-                              <p {...props} className="text-sm mb-2 last:mb-0" />
+                              <p {...props} className="text-sm mb-2 last:mb-0 text-slate-100" />
                             ),
                             ul: ({ node, ...props }) => (
                               <ul {...props} className="list-disc pl-4 text-sm" />
@@ -153,13 +153,13 @@ export default function AskAI() {
                               <ol {...props} className="list-decimal pl-4 text-sm" />
                             ),
                             li: ({ node, ...props }) => (
-                              <li {...props} className="mb-1" />
+                              <li {...props} className="mb-1 text-slate-100" />
                             ),
                             strong: ({ node, ...props }) => (
-                              <strong {...props} className="font-semibold" />
+                              <strong {...props} className="font-semibold text-white" />
                             ),
                             code: ({ node, ...props }) => (
-                              <code {...props} className="bg-gray-200 px-1 py-0.5 rounded text-xs" />
+                              <code {...props} className="bg-slate-600 px-1 py-0.5 rounded text-xs text-blue-300" />
                             ),
                           }}
                         >
@@ -174,14 +174,14 @@ export default function AskAI() {
             
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-2xl px-4 py-3 max-w-xs">
+                <div className="bg-slate-700 border border-slate-600 rounded-2xl px-4 py-3 max-w-xs">
                   <div className="flex items-center space-x-2">
                     <div className="animate-pulse flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
                     </div>
-                    <span className="text-sm text-gray-500">AI is typing...</span>
+                    <span className="text-sm text-slate-300">AI is typing...</span>
                   </div>
                 </div>
               </div>
@@ -192,14 +192,14 @@ export default function AskAI() {
 
           {/* Example Questions */}
           {messages.length === 0 && (
-            <div className="border-t border-gray-200 px-6 py-4">
-              <p className="text-sm text-gray-600 mb-3">Try asking:</p>
+            <div className="border-t border-slate-700 px-6 py-4 bg-slate-800">
+              <p className="text-sm text-slate-300 mb-3">Try asking:</p>
               <div className="flex flex-wrap gap-2">
                 {exampleQuestions.map((question, index) => (
                   <button
                     key={index}
                     onClick={() => askExampleQuestion(question)}
-                    className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-full transition-colors"
+                    className="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-full transition-colors border border-slate-600"
                   >
                     {question}
                   </button>
@@ -209,20 +209,20 @@ export default function AskAI() {
           )}
 
           {/* Input Form */}
-          <form onSubmit={handleSubmit} className="border-t border-gray-200 p-6">
+          <form onSubmit={handleSubmit} className="border-t border-slate-700 p-6 bg-slate-800">
             <div className="flex space-x-4">
               <input
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask about PC components, compatibility, or building tips..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !inputMessage.trim()}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
               >
                 {isLoading ? 'Sending...' : 'Send'}
               </button>

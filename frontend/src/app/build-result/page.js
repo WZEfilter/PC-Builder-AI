@@ -60,10 +60,10 @@ ${buildData.ai_response}
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your build...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
+          <p className="text-slate-300">Loading your build...</p>
         </div>
       </div>
     )
@@ -71,10 +71,10 @@ ${buildData.ai_response}
 
   if (!buildData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">No Build Data Found</h1>
-          <p className="text-gray-600 mb-6">Please generate a build first.</p>
+          <h1 className="text-2xl font-bold text-white mb-4">No Build Data Found</h1>
+          <p className="text-slate-300 mb-6">Please generate a build first.</p>
           <button
             onClick={() => router.push('/')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -87,24 +87,24 @@ ${buildData.ai_response}
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-slate-800 shadow-lg border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <button
                 onClick={() => router.push('/')}
-                className="text-blue-600 hover:text-blue-800 mr-4"
+                className="text-blue-400 hover:text-blue-300 mr-4"
               >
                 ← Back
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">PC Builder AI</h1>
+              <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-500 hover:text-gray-900">Home</a>
-              <a href="/ask-ai" className="text-gray-500 hover:text-gray-900">Ask AI</a>
-              <a href="/blog" className="text-gray-500 hover:text-gray-900">Blog</a>
+              <a href="/" className="text-slate-300 hover:text-white">Home</a>
+              <a href="/ask-ai" className="text-slate-300 hover:text-white">Ask AI</a>
+              <a href="/blog" className="text-slate-300 hover:text-white">Blog</a>
             </nav>
           </div>
         </div>
@@ -113,12 +113,12 @@ ${buildData.ai_response}
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Build Summary */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div className="bg-slate-800 rounded-2xl shadow-2xl p-8 mb-8 border border-slate-700">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-white mb-2">
               Your AI-Generated PC Build
             </h1>
-            <div className="flex justify-center items-center space-x-4 text-sm text-gray-600">
+            <div className="flex justify-center items-center space-x-4 text-sm text-slate-300">
               <span>Budget: ${buildData.budget} {buildData.currency || 'USD'}</span>
               <span>•</span>
               <span>Use Case: {buildData.use_case}</span>
@@ -137,33 +137,33 @@ ${buildData.ai_response}
             </button>
             <button
               onClick={shareOnTwitter}
-              className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+              className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-medium border border-slate-600"
             >
               Share on Twitter
             </button>
           </div>
 
           {/* AI Response */}
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none prose-invert">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
                 a: ({ node, ...props }) => (
                   <a
                     {...props}
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="text-blue-400 hover:text-blue-300 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   />
                 ),
                 h1: ({ node, ...props }) => (
-                  <h1 {...props} className="text-2xl font-bold text-gray-900 mb-4" />
+                  <h1 {...props} className="text-2xl font-bold text-white mb-4" />
                 ),
                 h2: ({ node, ...props }) => (
-                  <h2 {...props} className="text-xl font-semibold text-gray-900 mb-3" />
+                  <h2 {...props} className="text-xl font-semibold text-white mb-3" />
                 ),
                 h3: ({ node, ...props }) => (
-                  <h3 {...props} className="text-lg font-medium text-gray-900 mb-2" />
+                  <h3 {...props} className="text-lg font-medium text-white mb-2" />
                 ),
                 ul: ({ node, ...props }) => (
                   <ul {...props} className="list-disc pl-6 mb-4" />
@@ -172,19 +172,19 @@ ${buildData.ai_response}
                   <ol {...props} className="list-decimal pl-6 mb-4" />
                 ),
                 li: ({ node, ...props }) => (
-                  <li {...props} className="mb-1" />
+                  <li {...props} className="mb-1 text-slate-300" />
                 ),
                 p: ({ node, ...props }) => (
-                  <p {...props} className="mb-4 text-gray-700" />
+                  <p {...props} className="mb-4 text-slate-300" />
                 ),
                 strong: ({ node, ...props }) => (
-                  <strong {...props} className="font-semibold text-gray-900" />
+                  <strong {...props} className="font-semibold text-white" />
                 ),
                 code: ({ node, ...props }) => (
-                  <code {...props} className="bg-gray-100 px-2 py-1 rounded text-sm" />
+                  <code {...props} className="bg-slate-700 px-2 py-1 rounded text-sm text-blue-300" />
                 ),
                 pre: ({ node, ...props }) => (
-                  <pre {...props} className="bg-gray-100 p-4 rounded-lg overflow-x-auto" />
+                  <pre {...props} className="bg-slate-900 p-4 rounded-lg overflow-x-auto border border-slate-700" />
                 ),
               }}
             >
