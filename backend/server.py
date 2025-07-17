@@ -105,25 +105,16 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
             if completion.choices and len(completion.choices) > 0:
                 message = completion.choices[0].message
                 
-                # For DeepSeek R1 model, check both content and reasoning fields
+                # For regular DeepSeek models, use content field directly
                 content = message.content if message.content else ""
-                reasoning = getattr(message, 'reasoning', None) or ""
                 
-                # Get response from message dict to access reasoning field
-                message_dict = message.model_dump() if hasattr(message, 'model_dump') else {}
-                reasoning = message_dict.get('reasoning', '') if not reasoning else reasoning
+                logger.info(f"Content length: {len(content)}")
                 
-                logger.info(f"Content length: {len(content)}, Reasoning length: {len(reasoning)}")
-                
-                # DeepSeek R1 puts the actual response in the reasoning field
-                if reasoning and reasoning.strip():
-                    logger.info("Using reasoning field as response")
-                    return reasoning
-                elif content and content.strip():
+                if content and content.strip():
                     logger.info("Using content field as response")
                     return content
                 else:
-                    logger.warning("No content or reasoning found in response")
+                    logger.warning("No content found in response")
                     if attempt < max_retries - 1:
                         await asyncio.sleep(retry_delay)
                         continue
