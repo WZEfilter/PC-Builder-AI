@@ -32,6 +32,9 @@ export default function AskAI() {
     setIsLoading(true)
 
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ask-ai`, {
         method: 'POST',
         headers: {
@@ -41,7 +44,10 @@ export default function AskAI() {
           message: inputMessage,
           session_id: sessionId,
         }),
+        signal: controller.signal
       })
+      
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         throw new Error('Failed to get AI response')
