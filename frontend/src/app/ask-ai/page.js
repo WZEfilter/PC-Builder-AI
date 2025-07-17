@@ -64,11 +64,17 @@ export default function AskAI() {
 
     } catch (error) {
       console.error('Error:', error)
-      const errorMessage = { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered an error. Please try again.' 
+      let errorMessage = 'Sorry, I encountered an error. Please try again.'
+      
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timed out. Please try again.'
       }
-      setMessages(prev => [...prev, errorMessage])
+      
+      const errorMsg = { 
+        role: 'assistant', 
+        content: errorMessage
+      }
+      setMessages(prev => [...prev, errorMsg])
     } finally {
       setIsLoading(false)
     }
