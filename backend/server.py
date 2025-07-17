@@ -65,8 +65,8 @@ async def root():
 async def health_check():
     return {"status": "healthy", "message": "PC Builder AI API is running"}
 
-async def call_deepseek_api(prompt: str, temperature: float = 0.7, max_tokens: int = 2048):
-    """Call DeepSeek API with the given prompt"""
+async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens: int = 2048):
+    """Call OpenRouter DeepSeek-R1 API with the given prompt"""
     try:
         headers = {
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -74,7 +74,7 @@ async def call_deepseek_api(prompt: str, temperature: float = 0.7, max_tokens: i
         }
         
         data = {
-            "model": "deepseek-chat",
+            "model": "deepseek/deepseek-r1-0528:free",
             "messages": [
                 {"role": "user", "content": prompt}
             ],
@@ -84,21 +84,21 @@ async def call_deepseek_api(prompt: str, temperature: float = 0.7, max_tokens: i
         
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "https://api.deepseek.com/v1/chat/completions",
+                "https://openrouter.ai/api/v1/chat/completions",
                 headers=headers,
                 json=data,
-                timeout=30.0
+                timeout=60.0
             )
             
             if response.status_code != 200:
-                logger.error(f"DeepSeek API error: {response.status_code} - {response.text}")
+                logger.error(f"OpenRouter API error: {response.status_code} - {response.text}")
                 raise HTTPException(status_code=500, detail="AI service unavailable")
             
             result = response.json()
             return result["choices"][0]["message"]["content"]
             
     except Exception as e:
-        logger.error(f"Error calling DeepSeek API: {str(e)}")
+        logger.error(f"Error calling OpenRouter API: {str(e)}")
         raise HTTPException(status_code=500, detail="AI service error")
 
 def create_pc_build_prompt(budget: int, use_case: str, currency: str = "USD", additional_requirements: str = None):
@@ -130,7 +130,7 @@ Please provide a detailed PC build recommendation."""
 
 @app.post("/api/generate-build")
 async def generate_pc_build(request: PCBuildRequest):
-    """Generate PC build recommendation using DeepSeek AI"""
+    """Generate PC build recommendation using OpenRouter AI"""
     try:
         logger.info(f"Generating PC build for budget: ${request.budget}, use case: {request.use_case}")
         
@@ -142,8 +142,8 @@ async def generate_pc_build(request: PCBuildRequest):
             request.additional_requirements
         )
         
-        # Call DeepSeek API
-        ai_response = await call_deepseek_api(prompt)
+        # Call OpenRouter API
+        ai_response = await call_openrouter_api(prompt)
         
         # For now, return the AI response as-is
         # In a production version, you would parse this into structured data
@@ -172,8 +172,8 @@ Question: {request.message}
 
 Please provide a helpful, accurate response about PC building."""
         
-        # Call DeepSeek API
-        ai_response = await call_deepseek_api(context_prompt)
+        # Call OpenRouter API
+        ai_response = await call_openrouter_api(context_prompt)
         
         return {
             "success": True,
