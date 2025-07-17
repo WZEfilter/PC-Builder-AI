@@ -68,6 +68,8 @@ async def health_check():
 async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens: int = 2048):
     """Call OpenRouter DeepSeek-R1 API with the given prompt"""
     try:
+        logger.info(f"Calling OpenRouter API with prompt length: {len(prompt)}")
+        
         headers = {
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json"
@@ -90,27 +92,48 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
                 timeout=60.0
             )
             
+            logger.info(f"OpenRouter API status: {response.status_code}")
+            
             if response.status_code != 200:
                 logger.error(f"OpenRouter API error: {response.status_code} - {response.text}")
                 raise HTTPException(status_code=500, detail="AI service unavailable")
             
             result = response.json()
+            logger.info(f"OpenRouter response keys: {list(result.keys())}")
+            
+            if "choices" not in result:
+                logger.error(f"Missing 'choices' in response: {result}")
+                raise HTTPException(status_code=500, detail="Invalid AI response format")
+            
             message = result["choices"][0]["message"]
+            logger.info(f"Message keys: {list(message.keys())}")
             
             # DeepSeek-R1 model returns reasoning in a separate field
             # Use reasoning if content is empty, otherwise use content
             content = message.get("content", "")
             reasoning = message.get("reasoning", "")
             
+            logger.info(f"Content length: {len(content)}, Reasoning length: {len(reasoning)}")
+            
             if not content and reasoning:
+                logger.info("Using reasoning field as response")
                 return reasoning
             elif content:
+                logger.info("Using content field as response")
                 return content
             else:
+                logger.warning("No content or reasoning found in response")
                 return "No response generated"
             
+    except httpx.TimeoutException as e:
+        logger.error(f"OpenRouter API timeout: {str(e)}")
+        raise HTTPException(status_code=500, detail="AI service timeout")
+    except httpx.RequestError as e:
+        logger.error(f"OpenRouter API request error: {str(e)}")
+        raise HTTPException(status_code=500, detail="AI service request error")
     except Exception as e:
         logger.error(f"Error calling OpenRouter API: {str(e)}")
+        logger.error(f"Error type: {type(e)}")
         raise HTTPException(status_code=500, detail="AI service error")
 
 def create_pc_build_prompt(budget: int, use_case: str, currency: str = "USD", additional_requirements: str = None):
