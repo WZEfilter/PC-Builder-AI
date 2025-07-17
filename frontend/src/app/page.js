@@ -38,7 +38,7 @@ export default function Home() {
       
       console.log('Starting PC build generation...')
       
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate-build`, {
+      const response = await fetch(`http://localhost:8001/api/generate-build`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
