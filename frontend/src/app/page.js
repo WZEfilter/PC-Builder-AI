@@ -36,6 +36,8 @@ export default function Home() {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout for PC builds
       
+      console.log('Starting PC build generation...')
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate-build`, {
         method: 'POST',
         headers: {
@@ -52,15 +54,21 @@ export default function Home() {
       
       clearTimeout(timeoutId)
       
+      console.log('Response received:', response.status)
+      
       if (!response.ok) {
+        console.error('Response not ok:', response.status)
         throw new Error('Failed to generate build')
       }
       
       const data = await response.json()
+      console.log('Data received:', data.success)
       
       // Store the result in sessionStorage and navigate to results
       sessionStorage.setItem('pcBuildResult', JSON.stringify(data))
+      console.log('Data stored in sessionStorage')
       router.push('/build-result')
+      console.log('Navigating to results page')
       
     } catch (error) {
       console.error('Error:', error)
