@@ -125,39 +125,45 @@ backend:
 
   - task: "Generate Build Endpoint"
     implemented: true
-    working: false
+    working: true
     file: "backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "Endpoint implemented correctly but fails due to DeepSeek API 402 Payment Required error - insufficient balance in API account. Core functionality works, third-party integration issue."
+      - working: true
+        agent: "testing"
+        comment: "OpenRouter integration working perfectly. Tested with budget: 1500, use_case: gaming, additional_requirements: prefer AMD processor and RTX 4070. Returns comprehensive PC build recommendations with detailed component explanations, pricing, and reasoning. Fixed DeepSeek-R1 response format handling."
 
   - task: "Ask AI Endpoint"
     implemented: true
-    working: false
+    working: true
     file: "backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "Endpoint implemented correctly but fails due to DeepSeek API 402 Payment Required error - insufficient balance in API account. Core functionality works, third-party integration issue."
+      - working: true
+        agent: "testing"
+        comment: "OpenRouter integration working perfectly. Tested with question: 'What's the best motherboard for AMD Ryzen 7 7800X3D?' Returns detailed, relevant responses about PC components with comprehensive explanations and recommendations."
 
-  - task: "DeepSeek API Integration"
+  - task: "OpenRouter API Integration"
     implemented: true
-    working: false
+    working: true
     file: "backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
-      - working: false
+      - working: true
         agent: "testing"
-        comment: "Integration code is correct but API key has insufficient balance. Returns 402 Payment Required error. Need to add funds to DeepSeek account or use different API key."
+        comment: "OpenRouter DeepSeek-R1 model integration successful. API key working correctly. Fixed response parsing to handle DeepSeek-R1's reasoning field format. All AI endpoints returning relevant, detailed responses for PC building questions and build recommendations."
 
 frontend:
   - task: "Frontend Testing"
