@@ -33,6 +33,9 @@ export default function Home() {
     setIsLoading(true)
     
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout for PC builds
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate-build`, {
         method: 'POST',
         headers: {
@@ -44,7 +47,10 @@ export default function Home() {
           currency: currency,
           additional_requirements: additionalRequirements || null,
         }),
+        signal: controller.signal
       })
+      
+      clearTimeout(timeoutId)
       
       if (!response.ok) {
         throw new Error('Failed to generate build')
