@@ -74,7 +74,7 @@ async def health_check():
     return {"status": "healthy", "message": "PC Builder AI API is running"}
 
 async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens: int = 2048):
-    """Call OpenRouter DeepSeek-R1 API with the given prompt"""
+    """Call OpenRouter DeepSeek API using OpenAI client"""
     max_retries = 3
     retry_delay = 2
     
@@ -82,88 +82,43 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
         try:
             logger.info(f"Calling OpenRouter API (attempt {attempt + 1}/{max_retries}) with prompt length: {len(prompt)}")
             
-            headers = {
-                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                "Content-Type": "application/json"
-            }
-            
-            data = {
-                "model": "deepseek/deepseek-r1-0528:free",
-                "messages": [
-                    {"role": "user", "content": prompt}
+            completion = openai_client.chat.completions.create(
+                extra_headers={
+                    "HTTP-Referer": "https://pcbuilderai.com",
+                    "X-Title": "PC Builder AI",
+                },
+                model="deepseek/deepseek-chat-v3-0324:free",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
                 ],
-                "temperature": temperature,
-                "max_tokens": max_tokens
-            }
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
             
-            async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    "https://openrouter.ai/api/v1/chat/completions",
-                    headers=headers,
-                    json=data,
-                    timeout=60.0
-                )
-                
-                logger.info(f"OpenRouter API status: {response.status_code}")
-                
-                if response.status_code != 200:
-                    logger.error(f"OpenRouter API error: {response.status_code} - {response.text}")
-                    if attempt < max_retries - 1:
-                        await asyncio.sleep(retry_delay)
-                        continue
-                    raise HTTPException(status_code=500, detail="AI service unavailable")
-                
-                result = response.json()
-                logger.info(f"OpenRouter response keys: {list(result.keys())}")
-                
-                # Check if the response contains an error
-                if "error" in result:
-                    error_msg = result["error"].get("message", "Unknown error")
-                    logger.error(f"OpenRouter API returned error: {error_msg}")
-                    if attempt < max_retries - 1:
-                        await asyncio.sleep(retry_delay)
-                        continue
-                    raise HTTPException(status_code=500, detail=f"AI service error: {error_msg}")
-                
-                if "choices" not in result:
-                    logger.error(f"Missing 'choices' in response: {result}")
-                    if attempt < max_retries - 1:
-                        await asyncio.sleep(retry_delay)
-                        continue
-                    raise HTTPException(status_code=500, detail="Invalid AI response format")
-                
-                message = result["choices"][0]["message"]
-                logger.info(f"Message keys: {list(message.keys())}")
-                
-                # DeepSeek-R1 model returns reasoning in a separate field
-                # Use reasoning if content is empty, otherwise use content
-                content = message.get("content", "")
-                reasoning = message.get("reasoning", "")
-                
-                logger.info(f"Content length: {len(content)}, Reasoning length: {len(reasoning)}")
-                
-                if not content and reasoning:
-                    logger.info("Using reasoning field as response")
-                    return reasoning
-                elif content:
-                    logger.info("Using content field as response")
+            logger.info("OpenRouter API call successful")
+            
+            # Extract the response content
+            if completion.choices and len(completion.choices) > 0:
+                content = completion.choices[0].message.content
+                if content and content.strip():
+                    logger.info(f"Response length: {len(content)}")
                     return content
                 else:
-                    logger.warning("No content or reasoning found in response")
+                    logger.warning("Empty content in response")
+                    if attempt < max_retries - 1:
+                        await asyncio.sleep(retry_delay)
+                        continue
                     return "I apologize, but I couldn't generate a response. Please try again with a different question."
+            else:
+                logger.error("No choices in completion response")
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(retry_delay)
+                    continue
+                raise HTTPException(status_code=500, detail="Invalid AI response format")
                 
-        except httpx.TimeoutException as e:
-            logger.error(f"OpenRouter API timeout (attempt {attempt + 1}): {str(e)}")
-            if attempt < max_retries - 1:
-                await asyncio.sleep(retry_delay)
-                continue
-            raise HTTPException(status_code=500, detail="AI service timeout - please try again")
-        except httpx.RequestError as e:
-            logger.error(f"OpenRouter API request error (attempt {attempt + 1}): {str(e)}")
-            if attempt < max_retries - 1:
-                await asyncio.sleep(retry_delay)
-                continue
-            raise HTTPException(status_code=500, detail="AI service request error - please try again")
         except Exception as e:
             logger.error(f"Error calling OpenRouter API (attempt {attempt + 1}): {str(e)}")
             logger.error(f"Error type: {type(e)}")
