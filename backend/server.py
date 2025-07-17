@@ -6,6 +6,7 @@ import httpx
 import os
 from dotenv import load_dotenv
 import logging
+import asyncio
 from typing import Optional, List, Dict
 
 # Load environment variables
