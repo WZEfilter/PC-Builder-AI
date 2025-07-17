@@ -2,6 +2,6 @@
   "/_not-found": "app/_not-found.js",
   "/build-result/page": "app/build-result/page.js",
   "/blog/page": "app/blog/page.js",
-  "/ask-ai/page": "app/ask-ai/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/ask-ai/page": "app/ask-ai/page.js"
 }
