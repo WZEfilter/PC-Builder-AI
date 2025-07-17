@@ -15,13 +15,13 @@
       "static/css/764a79ed2e975a4d.css",
       "static/chunks/app/layout-e8f300d3d54153b4.js"
     ],
-    "/build-result/page": [
+    "/ask-ai/page": [
       "static/chunks/webpack-d460a7a36f06a114.js",
       "static/chunks/fd9d1056-de4593d8fd7fab50.js",
       "static/chunks/472-886fc153bcaedc80.js",
       "static/chunks/main-app-76eaa4b6682f0d90.js",
       "static/chunks/630-7c4d2a08e8ef4fef.js",
-      "static/chunks/app/build-result/page-cd211aa9627a9d92.js"
+      "static/chunks/app/ask-ai/page-70aebb01c659c5af.js"
     ],
     "/blog/page": [
       "static/chunks/webpack-d460a7a36f06a114.js",
@@ -30,20 +30,20 @@
       "static/chunks/main-app-76eaa4b6682f0d90.js",
       "static/chunks/app/blog/page-110b3b899488b1ff.js"
     ],
-    "/page": [
-      "static/chunks/webpack-d460a7a36f06a114.js",
-      "static/chunks/fd9d1056-de4593d8fd7fab50.js",
-      "static/chunks/472-886fc153bcaedc80.js",
-      "static/chunks/main-app-76eaa4b6682f0d90.js",
-      "static/chunks/app/page-77b9972b83f970cc.js"
-    ],
-    "/ask-ai/page": [
+    "/build-result/page": [
       "static/chunks/webpack-d460a7a36f06a114.js",
       "static/chunks/fd9d1056-de4593d8fd7fab50.js",
       "static/chunks/472-886fc153bcaedc80.js",
       "static/chunks/main-app-76eaa4b6682f0d90.js",
       "static/chunks/630-7c4d2a08e8ef4fef.js",
-      "static/chunks/app/ask-ai/page-0fcfc7c948691607.js"
+      "static/chunks/app/build-result/page-cd211aa9627a9d92.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-d460a7a36f06a114.js",
+      "static/chunks/fd9d1056-de4593d8fd7fab50.js",
+      "static/chunks/472-886fc153bcaedc80.js",
+      "static/chunks/main-app-76eaa4b6682f0d90.js",
+      "static/chunks/app/page-e7888180cb13c85f.js"
     ]
   }
 }
