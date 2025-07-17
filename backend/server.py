@@ -95,7 +95,19 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
                 raise HTTPException(status_code=500, detail="AI service unavailable")
             
             result = response.json()
-            return result["choices"][0]["message"]["content"]
+            message = result["choices"][0]["message"]
+            
+            # DeepSeek-R1 model returns reasoning in a separate field
+            # Use reasoning if content is empty, otherwise use content
+            content = message.get("content", "")
+            reasoning = message.get("reasoning", "")
+            
+            if not content and reasoning:
+                return reasoning
+            elif content:
+                return content
+            else:
+                return "No response generated"
             
     except Exception as e:
         logger.error(f"Error calling OpenRouter API: {str(e)}")
