@@ -88,7 +88,7 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
                     "X-Title": "PC Builder AI",
                 },
                 extra_body={},
-                model="deepseek/deepseek-r1-0528:free",
+                model="deepseek/deepseek-chat",
                 messages=[
                     {
                         "role": "user",
