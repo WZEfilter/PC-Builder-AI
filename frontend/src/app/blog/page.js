@@ -59,24 +59,24 @@ export default function Blog() {
   const categories = ["All", "Gaming", "Components", "GPU", "CPU", "Guide", "Motherboard"]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-slate-800 shadow-lg border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <button
                 onClick={() => router.push('/')}
-                className="text-blue-600 hover:text-blue-800 mr-4"
+                className="text-blue-400 hover:text-blue-300 mr-4"
               >
                 ← Back
               </button>
-              <h1 className="text-2xl font-bold text-gray-900">PC Builder AI</h1>
+              <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-500 hover:text-gray-900">Home</a>
-              <a href="/ask-ai" className="text-gray-500 hover:text-gray-900">Ask AI</a>
-              <a href="/blog" className="text-blue-600 font-medium">Blog</a>
+              <a href="/" className="text-slate-300 hover:text-white">Home</a>
+              <a href="/ask-ai" className="text-slate-300 hover:text-white">Ask AI</a>
+              <a href="/blog" className="text-blue-400 font-medium">Blog</a>
             </nav>
           </div>
         </div>
@@ -86,10 +86,10 @@ export default function Blog() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             PC Building Blog
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             Expert insights, component reviews, and building guides to help you make the best PC decisions.
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function Blog() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 category === "All" 
                   ? "bg-blue-600 text-white" 
-                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  : "bg-slate-700 text-slate-300 hover:bg-slate-600 border border-slate-600"
               }`}
             >
               {category}
@@ -113,24 +113,24 @@ export default function Blog() {
         {/* Blog Posts Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
-            <article key={post.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-600"></div>
+            <article key={post.id} className="bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow border border-slate-700">
+              <div className="h-48 bg-gradient-to-br from-blue-600 to-purple-600"></div>
               <div className="p-6">
                 <div className="flex items-center mb-3">
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  <span className="bg-blue-900 text-blue-300 text-xs font-medium px-2.5 py-0.5 rounded border border-blue-700">
                     {post.category}
                   </span>
-                  <span className="text-gray-500 text-sm ml-auto">
+                  <span className="text-slate-400 text-sm ml-auto">
                     {new Date(post.date).toLocaleDateString()}
                   </span>
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                <h2 className="text-xl font-bold text-white mb-3 line-clamp-2">
                   {post.title}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
+                <p className="text-slate-300 mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
-                <button className="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                <button className="text-blue-400 hover:text-blue-300 font-medium text-sm">
                   Read More →
                 </button>
               </div>
