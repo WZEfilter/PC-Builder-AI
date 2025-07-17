@@ -84,10 +84,11 @@ async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens:
             
             completion = openai_client.chat.completions.create(
                 extra_headers={
-                    "HTTP-Referer": "https://pcbuilderai.com",
+                    "HTTP-Referer": "https://pcbuilderai.emergent.com",
                     "X-Title": "PC Builder AI",
                 },
-                model="deepseek/deepseek-chat-v3-0324:free",
+                extra_body={},
+                model="deepseek/deepseek-r1-0528:free",
                 messages=[
                     {
                         "role": "user",
