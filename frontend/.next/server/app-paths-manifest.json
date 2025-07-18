@@ -1,3 +1,7 @@
 {
+  "/_not-found": "app/_not-found.js",
+  "/ask-ai/page": "app/ask-ai/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/build-result/page": "app/build-result/page.js",
   "/page": "app/page.js"
 }
