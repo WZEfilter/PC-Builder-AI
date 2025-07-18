@@ -35,7 +35,7 @@ export default function AskAI() {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
       
-      const response = await fetch(`http://localhost:8001/api/ask-ai`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ask-ai`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
