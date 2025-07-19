@@ -48,6 +48,7 @@ class PCBuildRequest(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     session_id: Optional[str] = None
+    build_context: Optional[str] = None
 
 # Response models
 class PCComponent(BaseModel):
