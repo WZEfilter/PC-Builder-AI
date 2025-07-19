@@ -128,16 +128,16 @@ Visit: https://pcbuilderai.com
           {/* Action Buttons */}
           <div className="flex justify-center space-x-4 mb-8">
             <button
-              onClick={downloadAsMarkdown}
+              onClick={downloadAsText}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
-              Download as Markdown
+              Download
             </button>
             <button
-              onClick={shareOnTwitter}
+              onClick={shareBuild}
               className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-medium border border-slate-600"
             >
-              Share on Twitter
+              Share Build
             </button>
           </div>
 
