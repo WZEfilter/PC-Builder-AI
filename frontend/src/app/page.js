@@ -62,11 +62,26 @@ export default function Home() {
       }
       
       const data = await response.json()
-      console.log('Data received:', data.success)
       
-      // Store the result in sessionStorage and navigate to results
-      sessionStorage.setItem('pcBuildResult', JSON.stringify(data))
-      console.log('Data stored in sessionStorage')
+      // Add timestamp to build data
+      const buildWithTimestamp = {
+        ...data,
+        timestamp: Date.now()
+      }
+      
+      // Store the result in sessionStorage for immediate use
+      sessionStorage.setItem('pcBuildResult', JSON.stringify(buildWithTimestamp))
+      
+      // Also save to localStorage for previous builds
+      const previousBuilds = JSON.parse(localStorage.getItem('previousBuilds') || '[]')
+      previousBuilds.push(buildWithTimestamp)
+      // Keep only last 10 builds
+      if (previousBuilds.length > 10) {
+        previousBuilds.shift()
+      }
+      localStorage.setItem('previousBuilds', JSON.stringify(previousBuilds))
+      
+      console.log('Data stored in sessionStorage and localStorage')
       router.push('/build-result')
       console.log('Navigating to results page')
       
