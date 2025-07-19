@@ -195,9 +195,16 @@ export default function Home() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors font-medium text-lg"
+              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300 font-medium text-lg transform hover:scale-105"
             >
-              {isLoading ? 'Generating Your Build...' : 'Generate PC Build'}
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                  Generating Your Build...
+                </div>
+              ) : (
+                'Generate PC Build'
+              )}
             </button>
           </form>
         </div>
