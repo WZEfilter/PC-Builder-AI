@@ -49,3 +49,77 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  from { 
+    opacity: 0; 
+    transform: translateY(-30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slideInFromTop {
+  animation: slideInFromTop 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slideInFromBottom {
+  animation: slideInFromBottom 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slideInFromLeft {
+  animation: slideInFromLeft 0.6s ease-out forwards;
+  opacity: 0;
+}
