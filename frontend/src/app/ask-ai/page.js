@@ -122,6 +122,17 @@ export default function AskAI() {
     setInputMessage(question)
   }
 
+  const usePreviousBuild = (build) => {
+    setCurrentBuildContext(build)
+    const contextMessage = `I'd like to discuss my ${build.use_case} PC build with a $${build.budget} budget.`
+    setInputMessage(contextMessage)
+  }
+
+  const clearChatHistory = () => {
+    setMessages([])
+    localStorage.removeItem(`chat_messages_${sessionId}`)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
