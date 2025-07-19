@@ -10,8 +10,36 @@ export default function AskAI() {
   const [inputMessage, setInputMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [sessionId] = useState(() => Math.random().toString(36).substr(2, 9))
+  const [previousBuilds, setPreviousBuilds] = useState([])
+  const [currentBuildContext, setCurrentBuildContext] = useState(null)
   const messagesEndRef = useRef(null)
   const router = useRouter()
+
+  // Load previous builds and messages from localStorage
+  useEffect(() => {
+    // Load chat messages from localStorage
+    const savedMessages = localStorage.getItem(`chat_messages_${sessionId}`)
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages))
+    }
+
+    // Load previous builds
+    const builds = JSON.parse(localStorage.getItem('previousBuilds') || '[]')
+    setPreviousBuilds(builds.slice(-3)) // Show last 3 builds
+
+    // Check for recent build context
+    const recentBuild = sessionStorage.getItem('pcBuildResult')
+    if (recentBuild) {
+      setCurrentBuildContext(JSON.parse(recentBuild))
+    }
+  }, [sessionId])
+
+  // Save messages to localStorage whenever messages change
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(`chat_messages_${sessionId}`, JSON.stringify(messages))
+    }
+  }, [messages, sessionId])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
