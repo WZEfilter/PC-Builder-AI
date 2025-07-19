@@ -71,6 +71,7 @@ export default function AskAI() {
         body: JSON.stringify({
           message: inputMessage,
           session_id: sessionId,
+          build_context: currentBuildContext ? currentBuildContext.ai_response : null,
         }),
         signal: controller.signal
       })
