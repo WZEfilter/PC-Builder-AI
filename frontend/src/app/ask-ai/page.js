@@ -279,8 +279,58 @@ export default function AskAI() {
                 {isLoading ? 'Sending...' : 'Send'}
               </button>
             </div>
+            {currentBuildContext && (
+              <div className="mt-3 p-3 bg-blue-900 bg-opacity-50 rounded-lg border border-blue-700">
+                <p className="text-sm text-blue-200">
+                  💡 Context: Discussing your ${currentBuildContext.budget} {currentBuildContext.use_case} build
+                  <button 
+                    onClick={() => setCurrentBuildContext(null)}
+                    className="ml-2 text-blue-300 hover:text-white"
+                  >
+                    ✕
+                  </button>
+                </p>
+              </div>
+            )}
           </form>
         </div>
+
+        {/* Previous Builds Section */}
+        {previousBuilds.length > 0 && (
+          <div className="bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700 animate-fadeIn">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-white">Previous Builds</h2>
+              <button 
+                onClick={clearChatHistory}
+                className="text-slate-400 hover:text-white text-sm"
+              >
+                Clear Chat
+              </button>
+            </div>
+            <div className="grid gap-4">
+              {previousBuilds.map((build, index) => (
+                <div key={index} className="bg-slate-700 rounded-lg p-4 border border-slate-600">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-white font-medium">
+                        ${build.budget} {build.use_case} Build
+                      </h3>
+                      <p className="text-slate-300 text-sm">
+                        Generated on {new Date(build.timestamp || Date.now()).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => usePreviousBuild(build)}
+                      className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                    >
+                      Discuss This Build
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   )
