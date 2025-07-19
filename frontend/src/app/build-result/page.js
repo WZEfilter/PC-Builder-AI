@@ -111,12 +111,12 @@ Visit: https://pcbuilderai.com
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Build Summary */}
-        <div className="bg-slate-800 rounded-2xl shadow-2xl p-8 mb-8 border border-slate-700">
+        <div className="bg-slate-800 rounded-2xl shadow-2xl p-8 mb-8 border border-slate-700 animate-fadeIn">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-3xl font-bold text-white mb-2 animate-slideInFromTop">
               Your AI-Generated PC Build
             </h1>
-            <div className="flex justify-center items-center space-x-4 text-sm text-slate-300">
+            <div className="flex justify-center items-center space-x-4 text-sm text-slate-300 animate-slideInFromBottom">
               <span>Budget: ${buildData.budget} {buildData.currency || 'USD'}</span>
               <span>•</span>
               <span>Use Case: {buildData.use_case}</span>
@@ -126,23 +126,23 @@ Visit: https://pcbuilderai.com
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-center space-x-4 mb-8">
+          <div className="flex justify-center space-x-4 mb-8 animate-slideInFromBottom" style={{animationDelay: '0.2s'}}>
             <button
               onClick={downloadAsText}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 font-medium transform hover:scale-105"
             >
               Download
             </button>
             <button
               onClick={shareBuild}
-              className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-medium border border-slate-600"
+              className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-all duration-300 font-medium border border-slate-600 transform hover:scale-105"
             >
               Share Build
             </button>
           </div>
 
           {/* AI Response */}
-          <div className="prose prose-lg max-w-none prose-invert">
+          <div className="prose prose-lg max-w-none prose-invert animate-fadeInUp" style={{animationDelay: '0.4s'}}>
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
