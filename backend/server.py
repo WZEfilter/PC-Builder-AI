@@ -138,28 +138,54 @@ def create_pc_build_prompt(budget: int, use_case: str, currency: str = "USD", ad
     """Create the prompt for PC build recommendation"""
     additional_text = f"\nAdditional requirements: {additional_requirements}" if additional_requirements else ""
     
-    return f"""You are an expert PC builder assistant.
-Your job is to:
-1. Recommend an optimized PC build based on user's budget and use-case (gaming, streaming, editing, office, etc).
-2. Choose high-performance and budget-balanced components (CPU, GPU, RAM, motherboard, PSU, SSD/HDD, case, cooling).
-3. Ensure compatibility (e.g., socket match, power requirements).
-4. Use actual product names that can be found on Amazon or PCPartPicker.
-5. DO NOT invent parts that don't exist.
-6. Structure your output clearly using markdown:
-- Total Budget: ${budget}
-- Purpose: {use_case}
-- Final Build:
-  - CPU: Intel Core i5-13400F
-  - GPU: NVIDIA RTX 4060 8GB
-  - ...
-7. For each part, include: product name, reason for choice, approximate price, and Amazon product URL placeholder.
-8. IMPORTANT: Wrap Amazon product links in this format:
-  [Product Name](https://www.amazon.com/dp/PRODUCT_ID?tag={AFFILIATE_TAG_AMAZON})
+    return f"""You are an expert PC builder assistant. Create a detailed PC build recommendation.
 
-Budget: ${budget} {currency}
-Use Case: {use_case}{additional_text}
+REQUIREMENTS:
+- Budget: ${budget} {currency}
+- Use case: {use_case}
+- Be specific with actual product names and current pricing{additional_text}
 
-Please provide a detailed PC build recommendation."""
+FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
+
+# ${budget} {use_case.title()} PC Build
+
+## Components:
+
+**CPU**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**GPU**: [Product Name] - $[price] 
+*Reason: [brief reason for choice]*
+
+**Motherboard**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**RAM**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**Storage**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**PSU**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**Case**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+**Cooling**: [Product Name] - $[price]
+*Reason: [brief reason for choice]*
+
+## Build Summary:
+- **Total Cost**: $[total]
+- **Performance**: [brief performance summary]
+- **Upgrade Path**: [brief upgrade suggestions]
+
+## Amazon Links:
+- CPU: [Product Name](https://www.amazon.com/dp/PRODUCT_ID?tag={AFFILIATE_TAG_AMAZON})
+- GPU: [Product Name](https://www.amazon.com/dp/PRODUCT_ID?tag={AFFILIATE_TAG_AMAZON})
+- [Continue for all components...]
+
+Use real, current products available on Amazon. Ensure total stays within budget."""
 
 @app.post("/api/generate-build")
 async def generate_pc_build(request: PCBuildRequest):
