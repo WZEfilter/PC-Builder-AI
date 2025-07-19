@@ -225,8 +225,10 @@ async def generate_pc_build(request: PCBuildRequest):
 async def ask_ai(request: ChatRequest):
     """Ask AI questions about PC components"""
     try:
-        # Check if there's a recent build in context
-        recent_build_context = ""
+        # Check if there's build context from recent PC build
+        build_context = ""
+        if request.build_context:
+            build_context = f"\n\nCONTEXT: The user recently generated this PC build:\n{request.build_context}\n\nYou can reference this build when answering their questions."
         
         # Create a context-aware prompt for PC building questions
         context_prompt = f"""You are a PC building expert assistant. Answer the user's question concisely and helpfully.
@@ -235,7 +237,7 @@ GUIDELINES:
 - For simple greetings (hi, hello): Give a brief, friendly response and ask how you can help with PC building
 - For specific technical questions: Provide detailed, accurate answers
 - For component recommendations: Be specific with current models and pricing
-- Keep responses focused and relevant to what the user asked
+- Keep responses focused and relevant to what the user asked{build_context}
 
 User's question: {request.message}
 
