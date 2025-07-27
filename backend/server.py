@@ -366,6 +366,81 @@ Make it informative, accurate, and valuable for users. Include specific examples
         logger.error(f"Error generating blog content: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to generate blog content")
 
+@app.post("/api/generate-build-article")
+async def generate_build_article(request: BlogGenerateRequest):
+    """Generate AI blog content specifically for PC build articles"""
+    try:
+        logger.info(f"Generating build article for: {request.topic} (budget: ${request.budget})")
+        
+        # Generate build-focused content
+        prompt = f"""You are a PC building expert writing an SEO-optimized blog post about a specific PC build.
+
+TOPIC: {request.topic}
+BUDGET: ${request.budget} {request.use_case or 'PC Build'}
+
+Write a comprehensive blog post in markdown format with the following structure:
+
+# {request.topic}
+
+## Introduction
+Brief introduction about the build and who it's for.
+
+## The Build
+List specific components with current prices and reasoning:
+
+**CPU**: [Specific model] - $[price]
+*Why this CPU: [reason]*
+
+**GPU**: [Specific model] - $[price] 
+*Why this GPU: [reason]*
+
+**Motherboard**: [Specific model] - $[price]
+*Why this motherboard: [reason]*
+
+**RAM**: [Specific model] - $[price]
+*Why this RAM: [reason]*
+
+**Storage**: [Specific model] - $[price]
+*Why this storage: [reason]*
+
+**PSU**: [Specific model] - $[price]
+*Why this PSU: [reason]*
+
+**Case**: [Specific model] - $[price]
+*Why this case: [reason]*
+
+**Cooling**: [Specific model] - $[price]
+*Why this cooling: [reason]*
+
+## Total Cost & Performance
+- **Total**: $[exact total]
+- **Performance**: What to expect in games/applications
+- **Upgrade Path**: Future upgrade suggestions
+
+## Amazon Links
+Include affiliate links for each component with tag: {AFFILIATE_TAG_AMAZON}
+
+Use real, current components with accurate pricing. Make it SEO-friendly and valuable for users searching for PC builds."""
+
+        # Call OpenRouter API
+        ai_response = await call_openrouter_api(prompt, temperature=0.8, max_tokens=3000)
+        
+        return {
+            "success": True,
+            "content": ai_response,
+            "topic": request.topic,
+            "category": "build",
+            "budget": request.budget,
+            "use_case": request.use_case,
+            "generated_at": datetime.now().isoformat()
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Error generating build article: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to generate build article")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
