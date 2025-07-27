@@ -100,6 +100,19 @@ async def root():
 async def health_check():
     return {"status": "healthy", "message": "PC Builder AI API is running"}
 
+@app.get("/api/health/db")
+async def db_health_check():
+    """Check database connection health"""
+    try:
+        if mongo_client is not None and db is not None:
+            # Test database connection
+            mongo_client.admin.command('ping')
+            return {"status": "healthy", "message": "Database connection is healthy"}
+        else:
+            return {"status": "unhealthy", "message": "Database connection not initialized"}
+    except Exception as e:
+        return {"status": "unhealthy", "message": f"Database connection failed: {str(e)}"}
+
 async def call_openrouter_api(prompt: str, temperature: float = 0.7, max_tokens: int = 2048):
     """Call OpenRouter DeepSeek API using OpenAI client"""
     max_retries = 3
