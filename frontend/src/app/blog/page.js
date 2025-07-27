@@ -1058,15 +1058,16 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                 <h3 className="text-base font-bold text-gray-900 mb-4">Related Articles</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {blogPosts.filter(post => post.id !== selectedPost.id && post.category === selectedPost.category).slice(0, 2).map((post) => (
-                    <div key={post.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                      <h4 className="font-medium text-gray-900 mb-2 text-sm line-clamp-2">{post.title}</h4>
+                    <div 
+                      key={post.id} 
+                      className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer"
+                      onClick={() => showBlogPost(post)}
+                    >
+                      <h4 className="font-medium text-gray-900 mb-2 text-sm line-clamp-2 hover:text-blue-600 transition-colors">{post.title}</h4>
                       <p className="text-gray-600 text-xs mb-3 line-clamp-2">{post.excerpt}</p>
-                      <button 
-                        onClick={() => showBlogPost(post)}
-                        className="text-blue-600 hover:text-blue-700 font-medium text-xs"
-                      >
+                      <div className="text-blue-600 hover:text-blue-700 font-medium text-xs">
                         Read More →
-                      </button>
+                      </div>
                     </div>
                   ))}
                 </div>
