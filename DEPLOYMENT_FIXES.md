@@ -4,12 +4,14 @@
 
 ### 1. Next.js Build Directory Issue
 **Problem**: Docker build failed because it expected a `build` directory but Next.js outputs to `.next`
-**Solution**: Updated `next.config.js` to output to `build` directory with standalone mode
+**Solution**: Updated `next.config.js` to conditionally output to `build` directory with standalone mode only in production
 ```javascript
 {
-  output: 'standalone',
-  distDir: 'build',
-  // ... other config
+  // Only use standalone mode and custom distDir for production builds
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'standalone',
+    distDir: 'build',
+  }),
 }
 ```
 
@@ -28,10 +30,14 @@
 **Problem**: No proper startup sequence for production deployment
 **Solution**: Created startup scripts for both frontend and backend with proper error handling
 
+### 5. Preview Environment Compatibility
+**Problem**: Production changes broke the preview/development environment
+**Solution**: Made production configurations conditional to preserve development functionality
+
 ## Files Modified
 
 ### Frontend Changes
-- `next.config.js`: Added standalone output and build directory configuration
+- `next.config.js`: Added conditional standalone output and build directory configuration
 - `package.json`: Added production start script
 - `start-production.js`: New production startup script
 
@@ -50,6 +56,19 @@
 - `AFFILIATE_TAG_AMAZON`: Amazon affiliate tag (optional)
 - `NEXT_PUBLIC_BACKEND_URL`: Frontend backend URL
 
+## Production vs Development Behavior
+### Development Mode
+- Uses standard Next.js `.next` directory
+- Local MongoDB connection
+- Hot reload enabled
+- Development server on port 3000
+
+### Production Mode
+- Builds to `build` directory with standalone mode
+- Supports MongoDB Atlas with SSL
+- Optimized static files
+- Production server ready for Docker deployment
+
 ## Production Readiness Features
 1. **Standalone Build**: Next.js builds to standalone directory for Docker deployment
 2. **SSL Support**: MongoDB Atlas connections with proper SSL certificates
@@ -59,17 +78,26 @@
 6. **Logging**: Comprehensive logging for debugging deployment issues
 
 ## Test Results
-- ✅ Next.js builds successfully to `build` directory
+- ✅ Next.js builds successfully to `build` directory in production
+- ✅ Preview environment works correctly in development
 - ✅ Backend starts with MongoDB Atlas connection support
 - ✅ Health check endpoints respond correctly
 - ✅ Environment variable validation works
 - ✅ All API endpoints function correctly
+- ✅ Blog functionality works with AI prompts
 - ✅ Frontend builds in standalone mode for Docker deployment
 
 ## Deployment Instructions
-1. Ensure all required environment variables are set
-2. Build frontend: `yarn build`
-3. Start backend: `python run.py`
-4. Start frontend: `npm run start:production`
+### Production Build
+1. Set `NODE_ENV=production`
+2. Ensure all required environment variables are set
+3. Build frontend: `NODE_ENV=production yarn build`
+4. Start backend: `python run.py`
+5. Start frontend: `npm run start:production`
 
-The application is now ready for production deployment with all identified issues resolved.
+### Development/Preview
+1. Use default environment (NODE_ENV=development)
+2. Run normally: `yarn dev` for frontend, `python server.py` for backend
+3. Preview URL will work as expected
+
+The application is now ready for production deployment with all identified issues resolved while maintaining full compatibility with the development/preview environment.
