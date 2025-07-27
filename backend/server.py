@@ -42,6 +42,9 @@ if not OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER_API_KEY environment variable is required")
 
 # Initialize MongoDB client
+mongo_client = None
+db = None
+
 try:
     if "mongodb+srv" in MONGO_URL:
         # MongoDB Atlas connection
@@ -51,17 +54,25 @@ try:
         mongo_client = MongoClient(MONGO_URL)
     
     db = mongo_client.get_default_database()
+    # Test the connection
+    mongo_client.admin.command('ping')
     logger.info("MongoDB connected successfully")
 except Exception as e:
     logger.error(f"MongoDB connection failed: {e}")
+    logger.info("Application will continue without database functionality")
     mongo_client = None
     db = None
 
 # Initialize OpenAI client for OpenRouter
-openai_client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=OPENROUTER_API_KEY,
-)
+try:
+    openai_client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=OPENROUTER_API_KEY,
+    )
+    logger.info("OpenAI client initialized successfully")
+except Exception as e:
+    logger.error(f"OpenAI client initialization failed: {e}")
+    raise ValueError("Failed to initialize OpenAI client")
 
 # Request models
 class PCBuildRequest(BaseModel):
