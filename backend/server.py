@@ -50,6 +50,12 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     build_context: Optional[str] = None
 
+class BlogGenerateRequest(BaseModel):
+    topic: str
+    category: str  # "build" or "article"
+    budget: Optional[int] = None
+    use_case: Optional[str] = None
+
 # Response models
 class PCComponent(BaseModel):
     name: str
