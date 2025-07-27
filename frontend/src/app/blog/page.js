@@ -341,42 +341,11 @@ export default function Blog() {
           </div>
         </main>
       </div>
-      </>
     )
   }
 
   return (
-    <>
-      <Head>
-        <title>{SEO_DATA.title}</title>
-        <meta name="description" content={SEO_DATA.description} />
-        <meta name="keywords" content={SEO_DATA.keywords} />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={SEO_DATA.canonical} />
-        
-        {/* Open Graph */}
-        <meta property="og:title" content={SEO_DATA.og.title} />
-        <meta property="og:description" content={SEO_DATA.og.description} />
-        <meta property="og:type" content={SEO_DATA.og.type} />
-        <meta property="og:url" content={SEO_DATA.og.url} />
-        <meta property="og:image" content={SEO_DATA.og.image} />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content={SEO_DATA.twitter.card} />
-        <meta name="twitter:title" content={SEO_DATA.twitter.title} />
-        <meta name="twitter:description" content={SEO_DATA.twitter.description} />
-        <meta name="twitter:image" content={SEO_DATA.twitter.image} />
-        
-        {/* Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(SEO_DATA.structuredData)
-          }}
-        />
-      </Head>
-      
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
       <header className="bg-slate-800 shadow-lg border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
