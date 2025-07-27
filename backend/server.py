@@ -276,33 +276,30 @@ async def generate_blog_post(request: BlogGenerateRequest):
             return await generate_build_article(request)
         else:
             # Generate article-focused content
-            prompt = f"""You are a PC hardware expert writing an SEO-optimized article about PC building topics.
+            prompt = f"""Write a comprehensive blog post about {request.topic}. 
 
-TOPIC: {request.topic}
+Write naturally as if you're a PC building expert sharing knowledge with readers. Do not include any meta-commentary like "here is a blog post about" or "this article will cover". Just write the content directly.
 
-Write a comprehensive, informative article in markdown format that answers the question thoroughly. Structure it with:
+Structure the blog post with:
 
 # {request.topic}
 
-## Quick Answer
-Provide a direct answer to the question in the title.
+Start with an engaging introduction that hooks the reader.
 
-## Detailed Analysis
-Go deep into the topic with current information, real examples, and technical details.
+Then provide detailed sections covering:
+- Current market analysis and recommendations
+- Technical specifications and performance details
+- Pricing and value considerations
+- Practical advice and tips
+- Real-world examples and use cases
 
-## Current State (2025)
-What's the situation in 2025? Include recent developments, driver updates, performance improvements, etc.
+Include specific product recommendations with current pricing where relevant.
 
-## Recommendations
-Practical advice for users based on the analysis.
+End with a conclusion that summarizes the key takeaways.
 
-## Amazon Product Recommendations
-Include relevant PC components with affiliate links using tag: {AFFILIATE_TAG_AMAZON}
+Write in a conversational, expert tone that's informative but accessible. Include Amazon product recommendations with affiliate links using tag: {AFFILIATE_TAG_AMAZON}
 
-## Conclusion
-Summarize the key points and final recommendations.
-
-Make it informative, accurate, and valuable for users. Include specific examples and current information."""
+Keep it comprehensive but engaging - aim for 800-1200 words."""
 
         # Call OpenRouter API
         ai_response = await call_openrouter_api(prompt, temperature=0.8, max_tokens=3000)
