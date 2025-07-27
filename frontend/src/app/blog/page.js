@@ -342,6 +342,7 @@ export default function Blog() {
           </div>
         </main>
       </div>
+      </>
     )
   }
 
