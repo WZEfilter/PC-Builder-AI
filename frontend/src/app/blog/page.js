@@ -1161,7 +1161,11 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
             {/* Blog Posts */}
             <div className="space-y-6">
               {filteredPosts.map((post, index) => (
-                <article key={post.id} className={`bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow ${index === 0 ? 'border-blue-200' : ''}`}>
+                <article 
+                  key={post.id} 
+                  className={`bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer ${index === 0 ? 'border-blue-200' : ''}`}
+                  onClick={() => showBlogPost(post)}
+                >
                   <div className="p-6">
                     <div className="flex items-center mb-4">
                       <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
@@ -1186,7 +1190,7 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                       </span>
                     </div>
                     
-                    <h2 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 cursor-pointer">
+                    <h2 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 transition-colors">
                       {post.title}
                     </h2>
                     
@@ -1205,15 +1209,12 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                       </div>
                     )}
                     
-                    <button 
-                      onClick={() => showBlogPost(post)}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
-                    >
+                    <div className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
                       Read More
                       <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </button>
+                    </div>
                   </div>
                 </article>
               ))}
