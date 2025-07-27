@@ -227,43 +227,6 @@ async def generate_pc_build(request: PCBuildRequest):
         logger.error(f"Error generating PC build: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to generate PC build")
 
-@app.post("/api/ask-ai")
-async def ask_ai(request: ChatRequest):
-    """Ask AI questions about PC components"""
-    try:
-        # Check if there's build context from recent PC build
-        build_context = ""
-        if request.build_context:
-            build_context = f"\n\nCONTEXT: The user recently generated this PC build:\n{request.build_context}\n\nYou can reference this build when answering their questions."
-        
-        # Create a context-aware prompt for PC building questions
-        context_prompt = f"""You are a PC building expert assistant. Answer the user's question concisely and helpfully.
-
-GUIDELINES:
-- For simple greetings (hi, hello): Give a brief, friendly response and ask how you can help with PC building
-- For specific technical questions: Provide detailed, accurate answers
-- For component recommendations: Be specific with current models and pricing
-- Keep responses focused and relevant to what the user asked{build_context}
-
-User's question: {request.message}
-
-Respond appropriately to the user's question - don't overwhelm them with information they didn't request."""
-        
-        # Call OpenRouter API
-        ai_response = await call_openrouter_api(context_prompt)
-        
-        return {
-            "success": True,
-            "response": ai_response,
-            "session_id": request.session_id
-        }
-        
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        logger.error(f"Error in ask AI: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to get AI response")
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
