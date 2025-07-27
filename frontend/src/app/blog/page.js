@@ -917,67 +917,156 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
   // If a post is selected, show the full article
   if (selectedPost) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-slate-50">
         {/* Header */}
-        <header className="bg-slate-800 shadow-lg border-b border-slate-700">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-6">
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-4">
               <div className="flex items-center">
                 <button
                   onClick={closeModal}
-                  className="text-blue-400 hover:text-blue-300 mr-4"
+                  className="text-blue-600 hover:text-blue-700 mr-4 font-medium"
                 >
                   ← Back to Blog
                 </button>
-                <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
+                <h1 className="text-xl font-bold text-gray-900">PC Builder AI</h1>
               </div>
-              <nav className="hidden md:flex space-x-8">
-                <a href="/" className="text-slate-300 hover:text-white">Home</a>
-                <a href="/ask-ai" className="text-slate-300 hover:text-white">Ask AI</a>
-                <a href="/blog" className="text-blue-400 font-medium">Blog</a>
+              <nav className="hidden md:flex space-x-6">
+                <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
+                <a href="/ask-ai" className="text-gray-600 hover:text-gray-900">Ask AI</a>
+                <a href="/blog" className="text-blue-600 font-medium">Blog</a>
               </nav>
             </div>
           </div>
         </header>
 
         {/* Article Content */}
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
-            <div className="h-64 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-white text-center px-6">
-                {selectedPost.title}
-              </h1>
-            </div>
-            
-            <div className="p-8">
-              <div className="flex items-center mb-6">
-                <span className="bg-blue-900 text-blue-300 text-sm font-medium px-3 py-1 rounded border border-blue-700">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <article className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            {/* Article Header */}
+            <div className="p-8 border-b">
+              <div className="flex items-center mb-4">
+                <span className={`text-xs font-medium px-3 py-1 rounded-full ${
+                  selectedPost.category === 'Gaming' ? 'bg-green-100 text-green-800' :
+                  selectedPost.category === 'Components' ? 'bg-blue-100 text-blue-800' :
+                  selectedPost.category === 'GPU' ? 'bg-purple-100 text-purple-800' :
+                  selectedPost.category === 'CPU' ? 'bg-red-100 text-red-800' :
+                  selectedPost.category === 'Guide' ? 'bg-orange-100 text-orange-800' :
+                  'bg-gray-100 text-gray-800'
+                }`}>
                   {selectedPost.category}
                 </span>
-                <span className="text-slate-400 ml-4">
-                  {new Date(selectedPost.date).toLocaleDateString()}
+                <span className="text-gray-500 text-sm ml-3">
+                  {new Date(selectedPost.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+                <span className="text-gray-400 text-sm ml-3">
+                  • {Math.ceil(selectedPost.content.length / 1000)} min read
                 </span>
               </div>
               
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                {selectedPost.title}
+              </h1>
+              
+              <div className="flex items-center text-sm text-gray-500 mb-4">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                    AI
+                  </div>
+                  <div>
+                    <div className="font-medium text-gray-900">PC Builder AI</div>
+                    <div className="text-gray-500">Expert PC Building Assistant</div>
+                  </div>
+                </div>
+              </div>
+              
+              {selectedPost.type === 'build' && (
+                <div className="flex items-center gap-3 text-sm">
+                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+                    Budget: ${selectedPost.budget}
+                  </span>
+                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">
+                    Use Case: {selectedPost.use_case}
+                  </span>
+                </div>
+              )}
+            </div>
+            
+            {/* Article Body */}
+            <div className="p-8">
               {generatedContent && (
-                <div className="prose prose-invert max-w-none">
+                <div className="prose prose-lg max-w-none">
                   <div 
-                    className="text-slate-300 leading-relaxed"
+                    className="text-gray-700 leading-relaxed"
                     dangerouslySetInnerHTML={{
                       __html: generatedContent
                         .replace(/\n/g, '<br>')
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold text-white mt-8 mb-4">$1</h1>')
-                        .replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold text-white mt-6 mb-3">$1</h2>')
-                        .replace(/^### (.*?)$/gm, '<h3 class="text-lg font-bold text-white mt-4 mb-2">$1</h3>')
-                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">$1</a>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+                        .replace(/^# (.*?)$/gm, '<h1 class="text-3xl font-bold text-gray-900 mt-8 mb-6 border-b pb-2">$1</h1>')
+                        .replace(/^## (.*?)$/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">$1</h2>')
+                        .replace(/^### (.*?)$/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">$1</h3>')
+                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer">$1</a>')
                     }}
                   />
                 </div>
               )}
+              
+              {/* AI Prompt Section */}
+              <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">
+                    AI
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Need a Custom PC Build?
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      This article gives you great insights, but every build is unique. Let our AI create a personalized PC build tailored to your exact budget, use case, and preferences.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <button
+                        onClick={() => router.push('/')}
+                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      >
+                        🤖 Generate My PC Build
+                      </button>
+                      <button
+                        onClick={() => router.push('/ask-ai')}
+                        className="bg-white text-blue-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium border border-blue-600"
+                      >
+                        💬 Ask AI Questions
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Related Articles */}
+              <div className="mt-12 pt-8 border-t">
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {blogPosts.filter(post => post.id !== selectedPost.id && post.category === selectedPost.category).slice(0, 2).map((post) => (
+                    <div key={post.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
+                      <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2">{post.title}</h4>
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
+                      <button 
+                        onClick={() => showBlogPost(post)}
+                        className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                      >
+                        Read More →
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </article>
         </main>
       </div>
     )
