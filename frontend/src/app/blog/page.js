@@ -95,7 +95,154 @@ export default function Blog() {
 
   const categories = ["All", "Gaming", "Components", "GPU", "CPU", "Guide", "Motherboard"]
 
-  return (
+  const filteredPosts = selectedCategory === "All" 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory)
+
+  const generateBlogContent = async (post) => {
+    setLoading(true)
+    setSelectedPost(post)
+    setGeneratedContent("")
+    
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8001'
+      const endpoint = post.type === 'build' ? '/api/generate-build-article' : '/api/generate-blog-post'
+      
+      const payload = {
+        topic: post.title,
+        category: post.type === 'build' ? 'build' : 'article',
+        ...(post.budget && { budget: post.budget }),
+        ...(post.use_case && { use_case: post.use_case })
+      }
+      
+      const response = await fetch(`${backendUrl}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      
+      if (data.success && data.content) {
+        setGeneratedContent(data.content)
+      } else {
+        throw new Error('Failed to generate content')
+      }
+      
+    } catch (error) {
+      console.error('Error generating blog content:', error)
+      setGeneratedContent("Sorry, we couldn't generate the content right now. Please try again later.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault()
+    if (!email) return
+    
+    // Simulate subscription (in real app, this would call an API)
+    setIsSubscribed(true)
+    setEmail("")
+    
+    setTimeout(() => {
+      setIsSubscribed(false)
+    }, 3000)
+  }
+
+  const closeModal = () => {
+    setSelectedPost(null)
+    setGeneratedContent("")
+  }
+
+  // If a post is selected, show the full article
+  if (selectedPost) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        {/* Header */}
+        <header className="bg-slate-800 shadow-lg border-b border-slate-700">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div className="flex items-center">
+                <button
+                  onClick={closeModal}
+                  className="text-blue-400 hover:text-blue-300 mr-4"
+                >
+                  ← Back to Blog
+                </button>
+                <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
+              </div>
+              <nav className="hidden md:flex space-x-8">
+                <a href="/" className="text-slate-300 hover:text-white">Home</a>
+                <a href="/ask-ai" className="text-slate-300 hover:text-white">Ask AI</a>
+                <a href="/blog" className="text-blue-400 font-medium">Blog</a>
+              </nav>
+            </div>
+          </div>
+        </header>
+
+        {/* Article Content */}
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="bg-slate-800 rounded-2xl shadow-xl border border-slate-700 overflow-hidden">
+            <div className="h-64 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+              <h1 className="text-3xl md:text-4xl font-bold text-white text-center px-6">
+                {selectedPost.title}
+              </h1>
+            </div>
+            
+            <div className="p-8">
+              <div className="flex items-center mb-6">
+                <span className="bg-blue-900 text-blue-300 text-sm font-medium px-3 py-1 rounded border border-blue-700">
+                  {selectedPost.category}
+                </span>
+                <span className="text-slate-400 ml-4">
+                  {new Date(selectedPost.date).toLocaleDateString()}
+                </span>
+              </div>
+              
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                  <span className="ml-4 text-slate-300">Generating content with AI...</span>
+                </div>
+              ) : generatedContent ? (
+                <div className="prose prose-invert max-w-none">
+                  <div 
+                    className="text-slate-300 leading-relaxed"
+                    dangerouslySetInnerHTML={{
+                      __html: generatedContent
+                        .replace(/\n/g, '<br>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold text-white mt-8 mb-4">$1</h1>')
+                        .replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold text-white mt-6 mb-3">$1</h2>')
+                        .replace(/^### (.*?)$/gm, '<h3 class="text-lg font-bold text-white mt-4 mb-2">$1</h3>')
+                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">$1</a>')
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <button
+                    onClick={() => generateBlogContent(selectedPost)}
+                    className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  >
+                    Generate AI Content
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
+    )
+  }
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
       <header className="bg-slate-800 shadow-lg border-b border-slate-700">
