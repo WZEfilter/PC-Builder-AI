@@ -1105,7 +1105,7 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                   {post.excerpt}
                 </p>
                 <button 
-                  onClick={() => generateBlogContent(post)}
+                  onClick={() => showBlogPost(post)}
                   className="text-blue-400 hover:text-blue-300 font-medium text-sm"
                 >
                   Read More →
