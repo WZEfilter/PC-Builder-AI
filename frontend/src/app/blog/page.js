@@ -1001,38 +1001,41 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
               {generatedContent && (
                 <div className="max-w-none">
                   <div 
-                    className="text-gray-700 leading-relaxed text-base"
-                    style={{ lineHeight: '1.7' }}
+                    className="text-gray-700 leading-relaxed text-sm"
+                    style={{ 
+                      lineHeight: '1.6',
+                      fontSize: '14px'
+                    }}
                     dangerouslySetInnerHTML={{
                       __html: generatedContent
-                        .replace(/\n\n/g, '</p><p class="mb-4">')
+                        .replace(/\n\n/g, '</p><p class="mb-3">')
                         .replace(/\n/g, '<br>')
                         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
                         .replace(/\*(.*?)\*/g, '<em class="italic text-gray-800">$1</em>')
-                        .replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b border-gray-200">$1</h1>')
-                        .replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold text-gray-900 mt-6 mb-3">$1</h2>')
-                        .replace(/^### (.*?)$/gm, '<h3 class="text-lg font-semibold text-gray-900 mt-5 mb-2">$1</h3>')
-                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer">$1</a>')
-                        .replace(/^(.*)$/gm, '<p class="mb-4">$1</p>')
+                        .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold text-gray-900 mt-6 mb-3 pb-2 border-b border-gray-200">$1</h1>')
+                        .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold text-gray-900 mt-5 mb-3">$1</h2>')
+                        .replace(/^### (.*?)$/gm, '<h3 class="text-base font-semibold text-gray-900 mt-4 mb-2">$1</h3>')
+                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline text-sm" target="_blank" rel="noopener noreferrer">$1</a>')
+                        .replace(/^(.*)$/gm, '<p class="mb-3 text-sm">$1</p>')
                     }}
                   />
                 </div>
               )}
               
               {/* AI Prompt Section */}
-              <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+              <div className="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-5 border border-blue-200">
                 <div className="flex items-start">
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0">
                     AI
                   </div>
                   <div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-base font-semibold text-gray-900 mb-2">
                       Need a Custom PC Build?
                     </h3>
-                    <p class="text-gray-600 text-sm mb-4">
+                    <p className="text-gray-600 text-sm mb-4">
                       This article gives you great insights, but every build is unique. Let our AI create a personalized PC build tailored to your exact budget, use case, and preferences.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3">
                       <button
                         onClick={() => router.push('/')}
                         className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm"
@@ -1051,8 +1054,8 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
               </div>
               
               {/* Related Articles */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Related Articles</h3>
+              <div className="mt-6 pt-5 border-t border-gray-200">
+                <h3 className="text-base font-bold text-gray-900 mb-4">Related Articles</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {blogPosts.filter(post => post.id !== selectedPost.id && post.category === selectedPost.category).slice(0, 2).map((post) => (
                     <div key={post.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
