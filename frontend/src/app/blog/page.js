@@ -1244,10 +1244,14 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Popular Posts</h3>
                 <div className="space-y-3">
                   {filteredPosts.slice(0, 4).map((post) => (
-                    <div key={post.id} className="flex items-start space-x-3">
+                    <div 
+                      key={post.id} 
+                      className="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors"
+                      onClick={() => showBlogPost(post)}
+                    >
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex-shrink-0"></div>
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 cursor-pointer">
+                        <h4 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors">
                           {post.title}
                         </h4>
                         <p className="text-xs text-gray-500 mt-1">
