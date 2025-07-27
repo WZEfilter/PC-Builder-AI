@@ -3,36 +3,6 @@
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
-// SEO metadata for Next.js 14
-export const metadata = {
-  title: "PC Building Blog - Expert PC Build Guides & Reviews | PC Builder AI",
-  description: "Comprehensive PC building guides, component reviews, and expert build recommendations. Learn how to build the perfect PC for gaming, streaming, and productivity.",
-  keywords: "PC building, computer builds, gaming PC, PC components, CPU, GPU, motherboard, RAM, PC build guide, computer hardware reviews",
-  openGraph: {
-    title: "PC Building Blog - Expert PC Build Guides & Reviews",
-    description: "Comprehensive PC building guides, component reviews, and expert build recommendations. Learn how to build the perfect PC for gaming, streaming, and productivity.",
-    type: "website",
-    url: "https://pcbuilderai.com/blog",
-    images: [
-      {
-        url: "https://pcbuilderai.com/og-blog.jpg",
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PC Building Blog - Expert PC Build Guides & Reviews",
-    description: "Comprehensive PC building guides, component reviews, and expert build recommendations.",
-    images: ["https://pcbuilderai.com/twitter-blog.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
-
 export default function Blog() {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState("All")
