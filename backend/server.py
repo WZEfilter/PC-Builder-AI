@@ -228,6 +228,144 @@ async def generate_pc_build(request: PCBuildRequest):
         logger.error(f"Error generating PC build: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to generate PC build")
 
+@app.post("/api/ask-ai")
+async def ask_ai(request: ChatRequest):
+    """Ask AI questions about PC components"""
+    try:
+        # Check if there's build context from recent PC build
+        build_context = ""
+        if request.build_context:
+            build_context = f"\n\nCONTEXT: The user recently generated this PC build:\n{request.build_context}\n\nYou can reference this build when answering their questions."
+        
+        # Create a context-aware prompt for PC building questions
+        context_prompt = f"""You are a PC building expert assistant. Answer the user's question concisely and helpfully.
+
+GUIDELINES:
+- For simple greetings (hi, hello): Give a brief, friendly response and ask how you can help with PC building
+- For specific technical questions: Provide detailed, accurate answers
+- For component recommendations: Be specific with current models and pricing
+- Keep responses focused and relevant to what the user asked{build_context}
+
+User's question: {request.message}
+
+Respond appropriately to the user's question - don't overwhelm them with information they didn't request."""
+        
+        # Call OpenRouter API
+        ai_response = await call_openrouter_api(context_prompt)
+        
+        return {
+            "success": True,
+            "response": ai_response,
+            "session_id": request.session_id
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Error in ask AI: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to get AI response")
+
+@app.post("/api/generate-blog")
+async def generate_blog(request: BlogGenerateRequest):
+    """Generate AI blog content for builds or articles"""
+    try:
+        logger.info(f"Generating blog content for: {request.topic} (category: {request.category})")
+        
+        if request.category == "build":
+            # Generate build-focused content
+            prompt = f"""You are a PC building expert writing an SEO-optimized blog post about a specific PC build.
+
+TOPIC: {request.topic}
+BUDGET: ${request.budget} {request.use_case or 'PC Build'}
+
+Write a comprehensive blog post in markdown format with the following structure:
+
+# {request.topic}
+
+## Introduction
+Brief introduction about the build and who it's for.
+
+## The Build
+List specific components with current prices and reasoning:
+
+**CPU**: [Specific model] - $[price]
+*Why this CPU: [reason]*
+
+**GPU**: [Specific model] - $[price] 
+*Why this GPU: [reason]*
+
+**Motherboard**: [Specific model] - $[price]
+*Why this motherboard: [reason]*
+
+**RAM**: [Specific model] - $[price]
+*Why this RAM: [reason]*
+
+**Storage**: [Specific model] - $[price]
+*Why this storage: [reason]*
+
+**PSU**: [Specific model] - $[price]
+*Why this PSU: [reason]*
+
+**Case**: [Specific model] - $[price]
+*Why this case: [reason]*
+
+**Cooling**: [Specific model] - $[price]
+*Why this cooling: [reason]*
+
+## Total Cost & Performance
+- **Total**: $[exact total]
+- **Performance**: What to expect in games/applications
+- **Upgrade Path**: Future upgrade suggestions
+
+## Amazon Links
+Include affiliate links for each component.
+
+Use real, current components with accurate pricing. Make it SEO-friendly and valuable for users searching for PC builds."""
+
+        else:
+            # Generate article-focused content
+            prompt = f"""You are a PC hardware expert writing an SEO-optimized article about PC building topics.
+
+TOPIC: {request.topic}
+
+Write a comprehensive, informative article in markdown format that answers the question thoroughly. Structure it with:
+
+# {request.topic}
+
+## Quick Answer
+Provide a direct answer to the question in the title.
+
+## Detailed Analysis
+Go deep into the topic with current information, real examples, and technical details.
+
+## Current State (2025)
+What's the situation in 2025? Include recent developments, driver updates, performance improvements, etc.
+
+## Recommendations
+Practical advice for users based on the analysis.
+
+## Conclusion
+Summarize the key points and final recommendations.
+
+Make it informative, accurate, and valuable for users. Include specific examples and current information."""
+
+        # Call OpenRouter API
+        ai_response = await call_openrouter_api(prompt, temperature=0.8, max_tokens=3000)
+        
+        return {
+            "success": True,
+            "content": ai_response,
+            "topic": request.topic,
+            "category": request.category,
+            "generated_at": datetime.now().isoformat()
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logger.error(f"Error generating blog content: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to generate blog content")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
