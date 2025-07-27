@@ -997,48 +997,51 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
             </div>
             
             {/* Article Body */}
-            <div className="p-8">
+            <div className="px-8 py-6">
               {generatedContent && (
-                <div className="prose prose-lg max-w-none">
+                <div className="max-w-none">
                   <div 
-                    className="text-gray-700 leading-relaxed"
+                    className="text-gray-700 leading-relaxed text-base"
+                    style={{ lineHeight: '1.7' }}
                     dangerouslySetInnerHTML={{
                       __html: generatedContent
+                        .replace(/\n\n/g, '</p><p class="mb-4">')
                         .replace(/\n/g, '<br>')
                         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-                        .replace(/^# (.*?)$/gm, '<h1 class="text-3xl font-bold text-gray-900 mt-8 mb-6 border-b pb-2">$1</h1>')
-                        .replace(/^## (.*?)$/gm, '<h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">$1</h2>')
-                        .replace(/^### (.*?)$/gm, '<h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">$1</h3>')
+                        .replace(/\*(.*?)\*/g, '<em class="italic text-gray-800">$1</em>')
+                        .replace(/^# (.*?)$/gm, '<h1 class="text-2xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b border-gray-200">$1</h1>')
+                        .replace(/^## (.*?)$/gm, '<h2 class="text-xl font-bold text-gray-900 mt-6 mb-3">$1</h2>')
+                        .replace(/^### (.*?)$/gm, '<h3 class="text-lg font-semibold text-gray-900 mt-5 mb-2">$1</h3>')
                         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer">$1</a>')
+                        .replace(/^(.*)$/gm, '<p class="mb-4">$1</p>')
                     }}
                   />
                 </div>
               )}
               
               {/* AI Prompt Section */}
-              <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+              <div className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
                 <div className="flex items-start">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 flex-shrink-0">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0">
                     AI
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
                       Need a Custom PC Build?
                     </h3>
-                    <p className="text-gray-600 mb-4">
+                    <p class="text-gray-600 text-sm mb-4">
                       This article gives you great insights, but every build is unique. Let our AI create a personalized PC build tailored to your exact budget, use case, and preferences.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3">
+                    <div class="flex flex-col sm:flex-row gap-3">
                       <button
                         onClick={() => router.push('/')}
-                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm"
                       >
                         🤖 Generate My PC Build
                       </button>
                       <button
                         onClick={() => router.push('/ask-ai')}
-                        className="bg-white text-blue-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium border border-blue-600"
+                        className="bg-white text-blue-600 px-5 py-2 rounded-md hover:bg-gray-50 transition-colors font-medium border border-blue-600 text-sm"
                       >
                         💬 Ask AI Questions
                       </button>
@@ -1048,16 +1051,16 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
               </div>
               
               {/* Related Articles */}
-              <div className="mt-12 pt-8 border-t">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h3>
-                <div className="grid md:grid-cols-2 gap-6">
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Related Articles</h3>
+                <div className="grid md:grid-cols-2 gap-4">
                   {blogPosts.filter(post => post.id !== selectedPost.id && post.category === selectedPost.category).slice(0, 2).map((post) => (
                     <div key={post.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                      <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2">{post.title}</h4>
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
+                      <h4 className="font-medium text-gray-900 mb-2 text-sm line-clamp-2">{post.title}</h4>
+                      <p className="text-gray-600 text-xs mb-3 line-clamp-2">{post.excerpt}</p>
                       <button 
                         onClick={() => showBlogPost(post)}
-                        className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                        className="text-blue-600 hover:text-blue-700 font-medium text-xs"
                       >
                         Read More →
                       </button>
