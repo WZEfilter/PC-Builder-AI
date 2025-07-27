@@ -31,10 +31,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Environment variables
+# Environment variables with production-friendly defaults
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 AFFILIATE_TAG_AMAZON = os.getenv("AFFILIATE_TAG_AMAZON", "your-affiliate-tag")
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/pc_builder_ai")
+MONGO_URL = os.getenv("MONGO_URL") or os.getenv("MONGODB_URI", "mongodb://localhost:27017/pc_builder_ai")
+
+# Validate required environment variables
+if not OPENROUTER_API_KEY:
+    logger.error("OPENROUTER_API_KEY environment variable is required")
+    raise ValueError("OPENROUTER_API_KEY environment variable is required")
 
 # Initialize MongoDB client
 try:
