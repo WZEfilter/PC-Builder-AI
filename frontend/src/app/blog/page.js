@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import Head from 'next/head'
 
 // SEO metadata
 const SEO_DATA = {
