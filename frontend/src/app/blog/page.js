@@ -270,6 +270,30 @@ export default function Blog() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Build Your Dream PC Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-12 text-white text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Build Your Dream PC with AI
+          </h2>
+          <p className="text-blue-100 mb-8 text-lg max-w-2xl mx-auto">
+            Get personalized PC build recommendations powered by AI. Tell us your budget and use case, and we'll create the perfect build for you.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => router.push('/')}
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+            >
+              Generate PC Build
+            </button>
+            <button
+              onClick={() => router.push('/ask-ai')}
+              className="bg-blue-700 text-white px-8 py-3 rounded-lg hover:bg-blue-800 transition-colors font-medium border border-blue-500"
+            >
+              Ask AI Questions
+            </button>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -285,8 +309,9 @@ export default function Blog() {
           {categories.map((category) => (
             <button
               key={category}
+              onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                category === "All" 
+                category === selectedCategory 
                   ? "bg-blue-600 text-white" 
                   : "bg-slate-700 text-slate-300 hover:bg-slate-600 border border-slate-600"
               }`}
@@ -298,9 +323,18 @@ export default function Blog() {
 
         {/* Blog Posts Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <article key={post.id} className="bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow border border-slate-700">
-              <div className="h-48 bg-gradient-to-br from-blue-600 to-purple-600"></div>
+              <div className="h-48 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-white font-semibold text-lg mb-2">{post.category}</div>
+                  {post.type === 'build' && (
+                    <div className="text-blue-200 text-sm">
+                      ${post.budget} {post.use_case} build
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="p-6">
                 <div className="flex items-center mb-3">
                   <span className="bg-blue-900 text-blue-300 text-xs font-medium px-2.5 py-0.5 rounded border border-blue-700">
@@ -316,19 +350,15 @@ export default function Blog() {
                 <p className="text-slate-300 mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
-                <button className="text-blue-400 hover:text-blue-300 font-medium text-sm">
+                <button 
+                  onClick={() => generateBlogContent(post)}
+                  className="text-blue-400 hover:text-blue-300 font-medium text-sm"
+                >
                   Read More →
                 </button>
               </div>
             </article>
           ))}
-        </div>
-
-        {/* Load More Button */}
-        <div className="text-center mt-12">
-          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-            Load More Articles
-          </button>
         </div>
 
         {/* Newsletter Signup */}
@@ -337,16 +367,28 @@ export default function Blog() {
           <p className="text-blue-100 mb-6">
             Get the latest PC building tips and component recommendations delivered to your inbox.
           </p>
-          <div className="flex max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <button className="bg-blue-700 text-white px-6 py-3 rounded-r-lg hover:bg-blue-800 transition-colors">
-              Subscribe
-            </button>
-          </div>
+          {isSubscribed ? (
+            <div className="text-green-300 font-medium">
+              ✓ Thank you for subscribing!
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex max-w-md mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                required
+              />
+              <button 
+                type="submit"
+                className="bg-blue-700 text-white px-6 py-3 rounded-r-lg hover:bg-blue-800 transition-colors"
+              >
+                Subscribe
+              </button>
+            </form>
+          )}
         </div>
       </main>
     </div>
