@@ -265,8 +265,8 @@ Respond appropriately to the user's question - don't overwhelm them with informa
         logger.error(f"Error in ask AI: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to get AI response")
 
-@app.post("/api/generate-blog")
-async def generate_blog(request: BlogGenerateRequest):
+@app.post("/api/generate-blog-post")
+async def generate_blog_post(request: BlogGenerateRequest):
     """Generate AI blog content for builds or articles"""
     try:
         logger.info(f"Generating blog content for: {request.topic} (category: {request.category})")
