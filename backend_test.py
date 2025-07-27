@@ -622,6 +622,11 @@ class BackendTester:
         self.test_generate_build_endpoint()
         self.test_ask_ai_endpoint()
         
+        # Test blog endpoints
+        self.test_generate_blog_post_endpoint()
+        self.test_generate_build_article_endpoint()
+        self.test_blog_post_redirect_functionality()
+        
         # Test DeepSeek integration specifically
         self.test_deepseek_api_integration()
         
