@@ -3,43 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
-// SEO metadata
-const SEO_DATA = {
-  title: "PC Building Blog - Expert PC Build Guides & Reviews | PC Builder AI",
-  description: "Comprehensive PC building guides, component reviews, and expert build recommendations. Learn how to build the perfect PC for gaming, streaming, and productivity.",
-  keywords: "PC building, computer builds, gaming PC, PC components, CPU, GPU, motherboard, RAM, PC build guide, computer hardware reviews",
-  canonical: "https://pcbuilderai.com/blog",
-  og: {
-    title: "PC Building Blog - Expert PC Build Guides & Reviews",
-    description: "Comprehensive PC building guides, component reviews, and expert build recommendations. Learn how to build the perfect PC for gaming, streaming, and productivity.",
-    type: "website",
-    url: "https://pcbuilderai.com/blog",
-    image: "https://pcbuilderai.com/og-blog.jpg",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PC Building Blog - Expert PC Build Guides & Reviews",
-    description: "Comprehensive PC building guides, component reviews, and expert build recommendations.",
-    image: "https://pcbuilderai.com/twitter-blog.jpg",
-  },
-  structuredData: {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "PC Builder AI Blog",
-    "description": "Expert PC building guides, component reviews, and build recommendations",
-    "url": "https://pcbuilderai.com/blog",
-    "publisher": {
-      "@type": "Organization",
-      "name": "PC Builder AI",
-      "url": "https://pcbuilderai.com"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://pcbuilderai.com/blog"
-    }
-  }
-}
-
+// SEO metadata for Next.js 14
 export const metadata = {
   title: "PC Building Blog - Expert PC Build Guides & Reviews | PC Builder AI",
   description: "Comprehensive PC building guides, component reviews, and expert build recommendations. Learn how to build the perfect PC for gaming, streaming, and productivity.",
