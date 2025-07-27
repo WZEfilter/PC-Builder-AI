@@ -165,6 +165,42 @@ backend:
         agent: "testing"
         comment: "OpenRouter DeepSeek-R1 model integration successful. API key working correctly. Fixed response parsing to handle DeepSeek-R1's reasoning field format. All AI endpoints returning relevant, detailed responses for PC building questions and build recommendations."
 
+  - task: "Generate Blog Post Endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Blog post generation endpoint working perfectly. Tested with topic 'Best Gaming PC Build Under $1000' and category 'article'. Returns comprehensive SEO-optimized content in markdown format (4012 characters) with proper structure, relevant gaming PC information, and affiliate link integration."
+
+  - task: "Generate Build Article Endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Build article generation endpoint working perfectly. Tested with budget $1000, use_case 'gaming', generates detailed PC build articles with specific components (CPU, GPU, motherboard, RAM, storage, PSU, case, cooling), pricing information, and Amazon affiliate links. Content length 4185 characters in proper markdown format."
+
+  - task: "Blog Post Redirect Functionality"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "Blog post endpoint correctly redirects build category requests to build article functionality. When category is 'build', the /api/generate-blog-post endpoint properly calls the build article generation logic and returns PC component recommendations with budget and use case information."
+
 frontend:
   - task: "Frontend Testing"
     implemented: true
