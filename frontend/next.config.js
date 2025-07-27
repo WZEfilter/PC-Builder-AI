@@ -2,8 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
-  distDir: 'build',
+  // Only use standalone mode and custom distDir for production builds
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'standalone',
+    distDir: 'build',
+  }),
   env: {
     NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
