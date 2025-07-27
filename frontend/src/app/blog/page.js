@@ -984,150 +984,236 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-slate-800 shadow-lg border-b border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
               <button
                 onClick={() => router.push('/')}
-                className="text-blue-400 hover:text-blue-300 mr-4"
+                className="text-blue-600 hover:text-blue-700 mr-4 font-medium"
               >
-                ← Back
+                ← Back to PC Builder
               </button>
-              <h1 className="text-2xl font-bold text-white">PC Builder AI</h1>
+              <h1 className="text-2xl font-bold text-gray-900">PC Builder AI Blog</h1>
             </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-slate-300 hover:text-white">Home</a>
-              <a href="/ask-ai" className="text-slate-300 hover:text-white">Ask AI</a>
-              <a href="/blog" className="text-blue-400 font-medium">Blog</a>
+            <nav className="hidden md:flex space-x-6">
+              <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
+              <a href="/ask-ai" className="text-gray-600 hover:text-gray-900">Ask AI</a>
+              <a href="/blog" className="text-blue-600 font-medium">Blog</a>
             </nav>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Build Your Dream PC Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-12 text-white text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Build Your Dream PC with AI
-          </h2>
-          <p className="text-blue-100 mb-8 text-lg max-w-2xl mx-auto">
-            Get personalized PC build recommendations powered by AI. Tell us your budget and use case, and we'll create the perfect build for you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => router.push('/')}
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors font-medium"
-            >
-              Generate PC Build
-            </button>
-            <button
-              onClick={() => router.push('/ask-ai')}
-              className="bg-blue-700 text-white px-8 py-3 rounded-lg hover:bg-blue-800 transition-colors font-medium border border-blue-500"
-            >
-              Ask AI Questions
-            </button>
-          </div>
-        </div>
-
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            PC Building Blog
-          </h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Expert insights, component reviews, and building guides to help you make the best PC decisions.
-          </p>
-        </div>
-
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                category === selectedCategory 
-                  ? "bg-blue-600 text-white" 
-                  : "bg-slate-700 text-slate-300 hover:bg-slate-600 border border-slate-600"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Blog Posts Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPosts.map((post) => (
-            <article key={post.id} className="bg-slate-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow border border-slate-700">
-              <div className="h-48 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-white font-semibold text-lg mb-2">{post.category}</div>
-                  {post.type === 'build' && (
-                    <div className="text-blue-200 text-sm">
-                      ${post.budget} {post.use_case} build
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center mb-3">
-                  <span className="bg-blue-900 text-blue-300 text-xs font-medium px-2.5 py-0.5 rounded border border-blue-700">
-                    {post.category}
-                  </span>
-                  <span className="text-slate-400 text-sm ml-auto">
-                    {new Date(post.date).toLocaleDateString()}
-                  </span>
-                </div>
-                <h2 className="text-xl font-bold text-white mb-3 line-clamp-2">
-                  {post.title}
-                </h2>
-                <p className="text-slate-300 mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
-                <button 
-                  onClick={() => showBlogPost(post)}
-                  className="text-blue-400 hover:text-blue-300 font-medium text-sm"
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content Area */}
+          <div className="lg:col-span-2">
+            {/* Build Your Dream PC Section */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-8 text-white">
+              <h2 className="text-2xl font-bold mb-3">
+                Need a Custom PC Build?
+              </h2>
+              <p className="text-blue-100 mb-4">
+                Get personalized PC build recommendations powered by AI. Tell us your budget and use case, and we'll create the perfect build for you.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => router.push('/')}
+                  className="bg-white text-blue-600 px-6 py-2 rounded-md hover:bg-gray-50 transition-colors font-medium"
                 >
-                  Read More →
+                  Generate PC Build
+                </button>
+                <button
+                  onClick={() => router.push('/ask-ai')}
+                  className="bg-blue-700 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition-colors font-medium"
+                >
+                  Ask AI Questions
                 </button>
               </div>
-            </article>
-          ))}
-        </div>
-
-        {/* Newsletter Signup */}
-        <div className="mt-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-blue-100 mb-6">
-            Get the latest PC building tips and component recommendations delivered to your inbox.
-          </p>
-          {isSubscribed ? (
-            <div className="text-green-300 font-medium">
-              ✓ Thank you for subscribing!
             </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="flex max-w-md mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                required
-              />
-              <button 
-                type="submit"
-                className="bg-blue-700 text-white px-6 py-3 rounded-r-lg hover:bg-blue-800 transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
-          )}
+
+            {/* Blog Header */}
+            <div className="mb-8">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                PC Building Insights & Guides
+              </h1>
+              <p className="text-lg text-gray-600">
+                Expert advice, component reviews, and complete build guides to help you make the best PC decisions.
+              </p>
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-2 mb-8 pb-4 border-b">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    category === selectedCategory 
+                      ? "bg-blue-600 text-white" 
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Blog Posts */}
+            <div className="space-y-6">
+              {filteredPosts.map((post, index) => (
+                <article key={post.id} className={`bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow ${index === 0 ? 'border-blue-200' : ''}`}>
+                  <div className="p-6">
+                    <div className="flex items-center mb-4">
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                        post.category === 'Gaming' ? 'bg-green-100 text-green-800' :
+                        post.category === 'Components' ? 'bg-blue-100 text-blue-800' :
+                        post.category === 'GPU' ? 'bg-purple-100 text-purple-800' :
+                        post.category === 'CPU' ? 'bg-red-100 text-red-800' :
+                        post.category === 'Guide' ? 'bg-orange-100 text-orange-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {post.category}
+                      </span>
+                      <span className="text-gray-500 text-sm ml-3">
+                        {new Date(post.date).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}
+                      </span>
+                      <span className="text-gray-400 text-sm ml-3">
+                        • {Math.ceil(post.content.length / 1000)} min read
+                      </span>
+                    </div>
+                    
+                    <h2 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 cursor-pointer">
+                      {post.title}
+                    </h2>
+                    
+                    <p className="text-gray-600 mb-4 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                    
+                    {post.type === 'build' && (
+                      <div className="flex items-center mb-4 text-sm text-gray-500">
+                        <span className="bg-gray-100 px-2 py-1 rounded mr-2">
+                          Budget: ${post.budget}
+                        </span>
+                        <span className="bg-gray-100 px-2 py-1 rounded">
+                          Use Case: {post.use_case}
+                        </span>
+                      </div>
+                    )}
+                    
+                    <button 
+                      onClick={() => showBlogPost(post)}
+                      className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Read More
+                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8 space-y-6">
+              {/* Search */}
+              <div className="bg-white rounded-lg shadow-sm border p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Search</h3>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search articles..."
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10"
+                  />
+                  <svg className="w-4 h-4 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Popular Posts */}
+              <div className="bg-white rounded-lg shadow-sm border p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Popular Posts</h3>
+                <div className="space-y-3">
+                  {filteredPosts.slice(0, 4).map((post) => (
+                    <div key={post.id} className="flex items-start space-x-3">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex-shrink-0"></div>
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 cursor-pointer">
+                          {post.title}
+                        </h4>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {new Date(post.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Categories */}
+              <div className="bg-white rounded-lg shadow-sm border p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
+                <div className="space-y-2">
+                  {categories.filter(cat => cat !== 'All').map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
+                        category === selectedCategory 
+                          ? "bg-blue-100 text-blue-700" 
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-6 text-white">
+                <h3 className="text-lg font-semibold mb-3">Stay Updated</h3>
+                <p className="text-blue-100 text-sm mb-4">
+                  Get the latest PC building tips and reviews delivered to your inbox.
+                </p>
+                {isSubscribed ? (
+                  <div className="text-green-200 font-medium text-sm">
+                    ✓ Thank you for subscribing!
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubscribe} className="space-y-3">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="w-full px-3 py-2 rounded text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                      required
+                    />
+                    <button 
+                      type="submit"
+                      className="w-full bg-blue-700 text-white py-2 rounded hover:bg-blue-800 transition-colors text-sm font-medium"
+                    >
+                      Subscribe
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
