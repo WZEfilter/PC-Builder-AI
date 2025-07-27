@@ -325,54 +325,56 @@ async def generate_build_article(request: BlogGenerateRequest):
         logger.info(f"Generating build article for: {request.topic} (budget: ${request.budget})")
         
         # Generate build-focused content
-        prompt = f"""You are a PC building expert writing an SEO-optimized blog post about a specific PC build.
+        prompt = f"""Write a comprehensive blog post about {request.topic} with a budget of ${request.budget}.
 
-TOPIC: {request.topic}
-BUDGET: ${request.budget} {request.use_case or 'PC Build'}
+Write naturally as a PC building expert sharing a specific build recommendation. Do not include meta-commentary like "here is a build" or "this article will show you". Just write the content directly.
 
-Write a comprehensive blog post in markdown format with the following structure:
+Structure the blog post with:
 
 # {request.topic}
 
-## Introduction
-Brief introduction about the build and who it's for.
+Start with an engaging introduction explaining who this build is perfect for.
 
 ## The Build
-List specific components with current prices and reasoning:
 
-**CPU**: [Specific model] - $[price]
-*Why this CPU: [reason]*
+List each component with specific models and current pricing:
 
-**GPU**: [Specific model] - $[price] 
-*Why this GPU: [reason]*
+**CPU**: [Specific model with exact name] - $[price]
+Explain why this CPU is perfect for this build and use case.
+
+**GPU**: [Specific model with exact name] - $[price]
+Explain the gaming performance and why it's ideal for this budget.
 
 **Motherboard**: [Specific model] - $[price]
-*Why this motherboard: [reason]*
+Explain the features and compatibility benefits.
 
-**RAM**: [Specific model] - $[price]
-*Why this RAM: [reason]*
+**RAM**: [Specific model and capacity] - $[price]
+Explain the memory requirements and performance benefits.
 
-**Storage**: [Specific model] - $[price]
-*Why this storage: [reason]*
+**Storage**: [Specific model and capacity] - $[price]
+Explain the storage solution and performance benefits.
 
-**PSU**: [Specific model] - $[price]
-*Why this PSU: [reason]*
+**PSU**: [Specific model and wattage] - $[price]
+Explain the power requirements and efficiency.
 
 **Case**: [Specific model] - $[price]
-*Why this case: [reason]*
+Explain the case features and build quality.
 
 **Cooling**: [Specific model] - $[price]
-*Why this cooling: [reason]*
+Explain the cooling solution and temperature management.
 
-## Total Cost & Performance
-- **Total**: $[exact total]
-- **Performance**: What to expect in games/applications
-- **Upgrade Path**: Future upgrade suggestions
+## Performance Expectations
+What users can expect in terms of gaming performance, frame rates, and capabilities.
 
-## Amazon Links
-Include affiliate links for each component with tag: {AFFILIATE_TAG_AMAZON}
+## Total Cost & Value
+Calculate the exact total and explain the value proposition.
 
-Use real, current components with accurate pricing. Make it SEO-friendly and valuable for users searching for PC builds."""
+## Upgrade Path
+Suggest future upgrades and expansion possibilities.
+
+End with a compelling conclusion about this build's strengths.
+
+Write in a conversational, expert tone. Include Amazon affiliate links using tag: {AFFILIATE_TAG_AMAZON}. Use real, current components with accurate pricing. Aim for 800-1000 words."""
 
         # Call OpenRouter API
         ai_response = await call_openrouter_api(prompt, temperature=0.8, max_tokens=3000)
