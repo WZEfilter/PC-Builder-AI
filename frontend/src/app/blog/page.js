@@ -264,36 +264,7 @@ export default function Blog() {
     }
 
     return (
-      <>
-        <Head>
-          <title>{postSEO.title}</title>
-          <meta name="description" content={postSEO.description} />
-          <meta name="robots" content="index, follow" />
-          <link rel="canonical" href={postSEO.canonical} />
-          
-          {/* Open Graph */}
-          <meta property="og:title" content={postSEO.og.title} />
-          <meta property="og:description" content={postSEO.og.description} />
-          <meta property="og:type" content={postSEO.og.type} />
-          <meta property="og:url" content={postSEO.og.url} />
-          <meta property="og:image" content={postSEO.og.image} />
-          
-          {/* Twitter Card */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={postSEO.og.title} />
-          <meta name="twitter:description" content={postSEO.og.description} />
-          <meta name="twitter:image" content={postSEO.og.image} />
-          
-          {/* Structured Data */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(postSEO.structuredData)
-            }}
-          />
-        </Head>
-        
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         {/* Header */}
         <header className="bg-slate-800 shadow-lg border-b border-slate-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
