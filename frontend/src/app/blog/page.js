@@ -8,7 +8,6 @@ export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [selectedPost, setSelectedPost] = useState(null)
   const [generatedContent, setGeneratedContent] = useState("")
-  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [isSubscribed, setIsSubscribed] = useState(false)
 
