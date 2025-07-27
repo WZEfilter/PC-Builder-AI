@@ -960,12 +960,7 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                 </span>
               </div>
               
-              {loading ? (
-                <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-                  <span className="ml-4 text-slate-300">Generating content with AI...</span>
-                </div>
-              ) : generatedContent ? (
+              {generatedContent && (
                 <div className="prose prose-invert max-w-none">
                   <div 
                     className="text-slate-300 leading-relaxed"
@@ -980,15 +975,6 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">$1</a>')
                     }}
                   />
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <button
-                    onClick={() => generateBlogContent(selectedPost)}
-                    className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                  >
-                    Generate AI Content
-                  </button>
                 </div>
               )}
             </div>
