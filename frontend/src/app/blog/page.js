@@ -996,6 +996,37 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
               )}
             </div>
             
+            {/* AI Prompt Section */}
+            <div className="px-8 py-6 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-200">
+              <div className="flex items-start">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0">
+                  AI
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900 mb-2">
+                    Need a Custom PC Build?
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    This article gives you great insights, but every build is unique. Let our AI create a personalized PC build tailored to your exact budget, use case, and preferences.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => router.push('/')}
+                      className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm"
+                    >
+                      🤖 Generate My PC Build
+                    </button>
+                    <button
+                      onClick={() => router.push('/ask-ai')}
+                      className="bg-white text-blue-600 px-5 py-2 rounded-md hover:bg-gray-50 transition-colors font-medium border border-blue-600 text-sm"
+                    >
+                      💬 Ask AI Questions
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             {/* Article Body */}
             <div className="px-8 py-6">
               {generatedContent && (
@@ -1010,48 +1041,17 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                       __html: generatedContent
                         .replace(/\n\n/g, '</p><p class="mb-3">')
                         .replace(/\n/g, '<br>')
-                        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-medium text-gray-900">$1</strong>')
                         .replace(/\*(.*?)\*/g, '<em class="italic text-gray-800">$1</em>')
-                        .replace(/^# (.*?)$/gm, '<h1 class="text-xl font-bold text-gray-900 mt-6 mb-3 pb-2 border-b border-gray-200">$1</h1>')
-                        .replace(/^## (.*?)$/gm, '<h2 class="text-lg font-bold text-gray-900 mt-5 mb-3">$1</h2>')
-                        .replace(/^### (.*?)$/gm, '<h3 class="text-base font-semibold text-gray-900 mt-4 mb-2">$1</h3>')
+                        .replace(/^# (.*?)$/gm, '<h1 class="text-lg font-semibold text-gray-900 mt-6 mb-3 pb-2 border-b border-gray-200">$1</h1>')
+                        .replace(/^## (.*?)$/gm, '<h2 class="text-base font-semibold text-gray-900 mt-5 mb-3">$1</h2>')
+                        .replace(/^### (.*?)$/gm, '<h3 class="text-sm font-medium text-gray-900 mt-4 mb-2">$1</h3>')
                         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-600 hover:text-blue-700 underline text-sm" target="_blank" rel="noopener noreferrer">$1</a>')
                         .replace(/^(.*)$/gm, '<p class="mb-3 text-sm">$1</p>')
                     }}
                   />
                 </div>
               )}
-              
-              {/* AI Prompt Section */}
-              <div className="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-5 border border-blue-200">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 flex-shrink-0">
-                    AI
-                  </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-gray-900 mb-2">
-                      Need a Custom PC Build?
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                      This article gives you great insights, but every build is unique. Let our AI create a personalized PC build tailored to your exact budget, use case, and preferences.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <button
-                        onClick={() => router.push('/')}
-                        className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm"
-                      >
-                        🤖 Generate My PC Build
-                      </button>
-                      <button
-                        onClick={() => router.push('/ask-ai')}
-                        className="bg-white text-blue-600 px-5 py-2 rounded-md hover:bg-gray-50 transition-colors font-medium border border-blue-600 text-sm"
-                      >
-                        💬 Ask AI Questions
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
               
               {/* Related Articles */}
               <div className="mt-6 pt-5 border-t border-gray-200">
