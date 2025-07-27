@@ -1,9 +1,16 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function Blog() {
   const router = useRouter()
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedPost, setSelectedPost] = useState(null)
+  const [generatedContent, setGeneratedContent] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [isSubscribed, setIsSubscribed] = useState(false)
 
   const blogPosts = [
     {
@@ -12,7 +19,10 @@ export default function Blog() {
       excerpt: "Discover the most powerful gaming PC builds you can get for under $1000, optimized for 1080p gaming.",
       date: "2025-01-15",
       category: "Gaming",
-      slug: "gaming-pc-under-1000"
+      slug: "gaming-pc-under-1000",
+      type: "build",
+      budget: 1000,
+      use_case: "gaming"
     },
     {
       id: 2,
@@ -20,7 +30,8 @@ export default function Blog() {
       excerpt: "Complete comparison of DDR4 and DDR5 memory, including performance, pricing, and compatibility.",
       date: "2025-01-12",
       category: "Components",
-      slug: "ddr4-vs-ddr5"
+      slug: "ddr4-vs-ddr5",
+      type: "article"
     },
     {
       id: 3,
@@ -28,7 +39,8 @@ export default function Blog() {
       excerpt: "In-depth comparison of NVIDIA's mid-range graphics cards for 1440p gaming.",
       date: "2025-01-10",
       category: "GPU",
-      slug: "rtx-4070-vs-4060-ti"
+      slug: "rtx-4070-vs-4060-ti",
+      type: "article"
     },
     {
       id: 4,
@@ -36,7 +48,8 @@ export default function Blog() {
       excerpt: "Which CPU platform offers better value for gaming and productivity in 2025?",
       date: "2025-01-08",
       category: "CPU",
-      slug: "intel-13th-gen-vs-amd-ryzen-7000"
+      slug: "intel-13th-gen-vs-amd-ryzen-7000",
+      type: "article"
     },
     {
       id: 5,
@@ -44,7 +57,8 @@ export default function Blog() {
       excerpt: "Step-by-step guide to building your first PC, from component selection to assembly.",
       date: "2025-01-05",
       category: "Guide",
-      slug: "pc-building-guide-beginners"
+      slug: "pc-building-guide-beginners",
+      type: "article"
     },
     {
       id: 6,
@@ -52,7 +66,30 @@ export default function Blog() {
       excerpt: "Top motherboard recommendations for different CPU platforms and budgets.",
       date: "2025-01-03",
       category: "Motherboard",
-      slug: "best-budget-motherboards-2025"
+      slug: "best-budget-motherboards-2025",
+      type: "article"
+    },
+    {
+      id: 7,
+      title: "Best Streaming PC Build Under $1500",
+      excerpt: "Perfect PC build for content creators and streamers who need performance and reliability.",
+      date: "2025-01-01",
+      category: "Gaming",
+      slug: "streaming-pc-build-1500",
+      type: "build",
+      budget: 1500,
+      use_case: "streaming"
+    },
+    {
+      id: 8,
+      title: "Budget Gaming PC Build Under $800",
+      excerpt: "Entry-level gaming PC that can handle modern games at 1080p without breaking the bank.",
+      date: "2024-12-28",
+      category: "Gaming",
+      slug: "budget-gaming-pc-800",
+      type: "build",
+      budget: 800,
+      use_case: "gaming"
     }
   ]
 
