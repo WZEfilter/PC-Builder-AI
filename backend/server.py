@@ -272,56 +272,8 @@ async def generate_blog_post(request: BlogGenerateRequest):
         logger.info(f"Generating blog content for: {request.topic} (category: {request.category})")
         
         if request.category == "build":
-            # Generate build-focused content
-            prompt = f"""You are a PC building expert writing an SEO-optimized blog post about a specific PC build.
-
-TOPIC: {request.topic}
-BUDGET: ${request.budget} {request.use_case or 'PC Build'}
-
-Write a comprehensive blog post in markdown format with the following structure:
-
-# {request.topic}
-
-## Introduction
-Brief introduction about the build and who it's for.
-
-## The Build
-List specific components with current prices and reasoning:
-
-**CPU**: [Specific model] - $[price]
-*Why this CPU: [reason]*
-
-**GPU**: [Specific model] - $[price] 
-*Why this GPU: [reason]*
-
-**Motherboard**: [Specific model] - $[price]
-*Why this motherboard: [reason]*
-
-**RAM**: [Specific model] - $[price]
-*Why this RAM: [reason]*
-
-**Storage**: [Specific model] - $[price]
-*Why this storage: [reason]*
-
-**PSU**: [Specific model] - $[price]
-*Why this PSU: [reason]*
-
-**Case**: [Specific model] - $[price]
-*Why this case: [reason]*
-
-**Cooling**: [Specific model] - $[price]
-*Why this cooling: [reason]*
-
-## Total Cost & Performance
-- **Total**: $[exact total]
-- **Performance**: What to expect in games/applications
-- **Upgrade Path**: Future upgrade suggestions
-
-## Amazon Links
-Include affiliate links for each component.
-
-Use real, current components with accurate pricing. Make it SEO-friendly and valuable for users searching for PC builds."""
-
+            # Generate build-focused content - redirect to build article endpoint
+            return await generate_build_article(request)
         else:
             # Generate article-focused content
             prompt = f"""You are a PC hardware expert writing an SEO-optimized article about PC building topics.
@@ -343,6 +295,9 @@ What's the situation in 2025? Include recent developments, driver updates, perfo
 
 ## Recommendations
 Practical advice for users based on the analysis.
+
+## Amazon Product Recommendations
+Include relevant PC components with affiliate links using tag: {AFFILIATE_TAG_AMAZON}
 
 ## Conclusion
 Summarize the key points and final recommendations.
