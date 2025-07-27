@@ -892,48 +892,9 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
     ? blogPosts 
     : blogPosts.filter(post => post.category === selectedCategory)
 
-  const generateBlogContent = async (post) => {
-    setLoading(true)
+  const showBlogPost = (post) => {
     setSelectedPost(post)
-    setGeneratedContent("")
-    
-    try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8001'
-      const endpoint = post.type === 'build' ? '/api/generate-build-article' : '/api/generate-blog-post'
-      
-      const payload = {
-        topic: post.title,
-        category: post.type === 'build' ? 'build' : 'article',
-        ...(post.budget && { budget: post.budget }),
-        ...(post.use_case && { use_case: post.use_case })
-      }
-      
-      const response = await fetch(`${backendUrl}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      })
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      
-      if (data.success && data.content) {
-        setGeneratedContent(data.content)
-      } else {
-        throw new Error('Failed to generate content')
-      }
-      
-    } catch (error) {
-      console.error('Error generating blog content:', error)
-      setGeneratedContent("Sorry, we couldn't generate the content right now. Please try again later.")
-    } finally {
-      setLoading(false)
-    }
+    setGeneratedContent(post.content)
   }
 
   const handleSubscribe = async (e) => {
