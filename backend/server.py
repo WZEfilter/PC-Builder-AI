@@ -45,6 +45,11 @@ class PCBuildRequest(BaseModel):
     currency: str = "USD"
     additional_requirements: Optional[str] = None
 
+class ChatRequest(BaseModel):
+    message: str
+    session_id: Optional[str] = None
+    build_context: Optional[str] = None
+
 class BlogGenerateRequest(BaseModel):
     topic: str
     category: str  # "build" or "article"
