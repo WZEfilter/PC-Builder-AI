@@ -10,6 +10,8 @@ import logging
 import asyncio
 from typing import Optional, List, Dict
 from datetime import datetime
+from pymongo import MongoClient
+import certifi
 
 # Load environment variables
 load_dotenv()
@@ -32,6 +34,23 @@ app.add_middleware(
 # Environment variables
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 AFFILIATE_TAG_AMAZON = os.getenv("AFFILIATE_TAG_AMAZON", "your-affiliate-tag")
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/pc_builder_ai")
+
+# Initialize MongoDB client
+try:
+    if "mongodb+srv" in MONGO_URL:
+        # MongoDB Atlas connection
+        mongo_client = MongoClient(MONGO_URL, tlsCAFile=certifi.where())
+    else:
+        # Local MongoDB connection
+        mongo_client = MongoClient(MONGO_URL)
+    
+    db = mongo_client.get_default_database()
+    logger.info("MongoDB connected successfully")
+except Exception as e:
+    logger.error(f"MongoDB connection failed: {e}")
+    mongo_client = None
+    db = None
 
 # Initialize OpenAI client for OpenRouter
 openai_client = OpenAI(
