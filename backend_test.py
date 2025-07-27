@@ -315,6 +315,233 @@ class BackendTester:
                 {"error": str(e)}
             )
     
+    def test_generate_blog_post_endpoint(self):
+        """Test the /api/generate-blog-post endpoint for general articles"""
+        test_data = {
+            "topic": "Best Gaming PC Build Under $1000",
+            "category": "article"
+        }
+        
+        try:
+            response = requests.post(
+                f"{BACKEND_URL}/api/generate-blog-post",
+                json=test_data,
+                timeout=60  # AI calls can take longer
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success") and data.get("content"):
+                    # Check if content is in markdown format and contains relevant information
+                    content = data.get("content", "").lower()
+                    has_relevant_content = any(keyword in content for keyword in [
+                        "gaming", "pc", "build", "$1000", "cpu", "gpu", "components"
+                    ])
+                    
+                    # Check for markdown formatting
+                    has_markdown = any(marker in data.get("content", "") for marker in [
+                        "#", "##", "**", "*", "[", "]", "("
+                    ])
+                    
+                    if has_relevant_content and has_markdown:
+                        self.log_result(
+                            "Generate Blog Post Endpoint",
+                            True,
+                            "Blog post generation successful with relevant content in markdown format",
+                            {
+                                "status_code": response.status_code,
+                                "topic": data.get("topic"),
+                                "category": data.get("category"),
+                                "content_length": len(data.get("content", "")),
+                                "has_markdown": has_markdown
+                            }
+                        )
+                    else:
+                        self.log_result(
+                            "Generate Blog Post Endpoint",
+                            False,
+                            "Blog content doesn't contain relevant information or proper markdown formatting",
+                            {"status_code": response.status_code, "response": data}
+                        )
+                else:
+                    self.log_result(
+                        "Generate Blog Post Endpoint",
+                        False,
+                        "Response missing success flag or content",
+                        {"status_code": response.status_code, "response": data}
+                    )
+            else:
+                self.log_result(
+                    "Generate Blog Post Endpoint",
+                    False,
+                    f"Generate blog post endpoint returned status code {response.status_code}",
+                    {"status_code": response.status_code, "response": response.text}
+                )
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result(
+                "Generate Blog Post Endpoint",
+                False,
+                f"Failed to connect to generate blog post endpoint: {str(e)}",
+                {"error": str(e)}
+            )
+    
+    def test_generate_build_article_endpoint(self):
+        """Test the /api/generate-build-article endpoint for PC build-specific articles"""
+        test_data = {
+            "topic": "Best Gaming PC Build Under $1000",
+            "category": "build",
+            "budget": 1000,
+            "use_case": "gaming"
+        }
+        
+        try:
+            response = requests.post(
+                f"{BACKEND_URL}/api/generate-build-article",
+                json=test_data,
+                timeout=60  # AI calls can take longer
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success") and data.get("content"):
+                    # Check if content contains PC build components and pricing
+                    content = data.get("content", "").lower()
+                    has_build_content = any(keyword in content for keyword in [
+                        "cpu", "gpu", "motherboard", "ram", "storage", "psu", "case", "cooling"
+                    ])
+                    
+                    # Check for pricing information
+                    has_pricing = "$" in data.get("content", "")
+                    
+                    # Check for markdown formatting
+                    has_markdown = any(marker in data.get("content", "") for marker in [
+                        "#", "##", "**", "*", "[", "]", "("
+                    ])
+                    
+                    # Check for affiliate links mention
+                    content_full = data.get("content", "")
+                    has_affiliate_links = "amazon" in content_full.lower() or "affiliate" in content_full.lower()
+                    
+                    if has_build_content and has_pricing and has_markdown:
+                        self.log_result(
+                            "Generate Build Article Endpoint",
+                            True,
+                            "Build article generation successful with PC components, pricing, and markdown format",
+                            {
+                                "status_code": response.status_code,
+                                "topic": data.get("topic"),
+                                "category": data.get("category"),
+                                "budget": data.get("budget"),
+                                "use_case": data.get("use_case"),
+                                "content_length": len(data.get("content", "")),
+                                "has_components": has_build_content,
+                                "has_pricing": has_pricing,
+                                "has_affiliate_links": has_affiliate_links
+                            }
+                        )
+                    else:
+                        self.log_result(
+                            "Generate Build Article Endpoint",
+                            False,
+                            "Build article missing PC components, pricing, or proper formatting",
+                            {
+                                "status_code": response.status_code, 
+                                "has_components": has_build_content,
+                                "has_pricing": has_pricing,
+                                "has_markdown": has_markdown
+                            }
+                        )
+                else:
+                    self.log_result(
+                        "Generate Build Article Endpoint",
+                        False,
+                        "Response missing success flag or content",
+                        {"status_code": response.status_code, "response": data}
+                    )
+            else:
+                self.log_result(
+                    "Generate Build Article Endpoint",
+                    False,
+                    f"Generate build article endpoint returned status code {response.status_code}",
+                    {"status_code": response.status_code, "response": response.text}
+                )
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result(
+                "Generate Build Article Endpoint",
+                False,
+                f"Failed to connect to generate build article endpoint: {str(e)}",
+                {"error": str(e)}
+            )
+    
+    def test_blog_post_redirect_functionality(self):
+        """Test that /api/generate-blog-post redirects build category to build article endpoint"""
+        test_data = {
+            "topic": "Best Gaming PC Build Under $1000",
+            "category": "build",
+            "budget": 1000,
+            "use_case": "gaming"
+        }
+        
+        try:
+            response = requests.post(
+                f"{BACKEND_URL}/api/generate-blog-post",
+                json=test_data,
+                timeout=60  # AI calls can take longer
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get("success") and data.get("content") and data.get("category") == "build":
+                    # Should behave like build article endpoint when category is "build"
+                    content = data.get("content", "").lower()
+                    has_build_content = any(keyword in content for keyword in [
+                        "cpu", "gpu", "motherboard", "ram", "storage", "psu", "case"
+                    ])
+                    
+                    if has_build_content and data.get("budget") == 1000:
+                        self.log_result(
+                            "Blog Post Redirect Functionality",
+                            True,
+                            "Blog post endpoint correctly redirects build category to build article functionality",
+                            {
+                                "status_code": response.status_code,
+                                "category": data.get("category"),
+                                "budget": data.get("budget"),
+                                "has_build_content": has_build_content
+                            }
+                        )
+                    else:
+                        self.log_result(
+                            "Blog Post Redirect Functionality",
+                            False,
+                            "Blog post redirect doesn't generate proper build content",
+                            {"status_code": response.status_code, "response": data}
+                        )
+                else:
+                    self.log_result(
+                        "Blog Post Redirect Functionality",
+                        False,
+                        "Blog post redirect failed or returned incorrect data",
+                        {"status_code": response.status_code, "response": data}
+                    )
+            else:
+                self.log_result(
+                    "Blog Post Redirect Functionality",
+                    False,
+                    f"Blog post redirect test returned status code {response.status_code}",
+                    {"status_code": response.status_code, "response": response.text}
+                )
+                
+        except requests.exceptions.RequestException as e:
+            self.log_result(
+                "Blog Post Redirect Functionality",
+                False,
+                f"Failed to test blog post redirect: {str(e)}",
+                {"error": str(e)}
+            )
+
     def test_deepseek_api_integration(self):
         """Test DeepSeek API integration by checking if responses are from AI"""
         test_data = {
