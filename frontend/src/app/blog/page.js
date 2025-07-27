@@ -944,9 +944,9 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
         <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <article className="bg-white rounded-lg shadow-sm border overflow-hidden">
             {/* Article Header */}
-            <div className="p-8 border-b">
-              <div className="flex items-center mb-4">
-                <span className={`text-xs font-medium px-3 py-1 rounded-full ${
+            <div className="px-8 py-6 border-b border-gray-100">
+              <div className="flex items-center mb-3">
+                <span className={`text-xs font-medium px-2 py-1 rounded-full ${
                   selectedPost.category === 'Gaming' ? 'bg-green-100 text-green-800' :
                   selectedPost.category === 'Components' ? 'bg-blue-100 text-blue-800' :
                   selectedPost.category === 'GPU' ? 'bg-purple-100 text-purple-800' :
@@ -968,28 +968,28 @@ The remaining budget provides flexibility for peripherals or immediate upgrades,
                 </span>
               </div>
               
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight">
                 {selectedPost.title}
               </h1>
               
               <div className="flex items-center text-sm text-gray-500 mb-4">
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs mr-3">
                     AI
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">PC Builder AI</div>
-                    <div className="text-gray-500">Expert PC Building Assistant</div>
+                    <div className="font-medium text-gray-900 text-sm">PC Builder AI</div>
+                    <div className="text-gray-500 text-xs">Expert PC Building Assistant</div>
                   </div>
                 </div>
               </div>
               
               {selectedPost.type === 'build' && (
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
                     Budget: ${selectedPost.budget}
                   </span>
-                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">
+                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
                     Use Case: {selectedPost.use_case}
                   </span>
                 </div>
