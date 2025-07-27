@@ -15,13 +15,6 @@
       "static/css/d34677fee745e11a.css",
       "static/chunks/app/layout-b55c46b59703ba94.js"
     ],
-    "/blog/page": [
-      "static/chunks/webpack-880711be8a5c20af.js",
-      "static/chunks/fd9d1056-de4593d8fd7fab50.js",
-      "static/chunks/472-886fc153bcaedc80.js",
-      "static/chunks/main-app-76eaa4b6682f0d90.js",
-      "static/chunks/app/blog/page-253e98304d13cfd4.js"
-    ],
     "/ask-ai/page": [
       "static/chunks/webpack-880711be8a5c20af.js",
       "static/chunks/fd9d1056-de4593d8fd7fab50.js",
@@ -29,6 +22,13 @@
       "static/chunks/main-app-76eaa4b6682f0d90.js",
       "static/chunks/630-7c4d2a08e8ef4fef.js",
       "static/chunks/app/ask-ai/page-13a97f7464ab1e0d.js"
+    ],
+    "/blog/page": [
+      "static/chunks/webpack-880711be8a5c20af.js",
+      "static/chunks/fd9d1056-de4593d8fd7fab50.js",
+      "static/chunks/472-886fc153bcaedc80.js",
+      "static/chunks/main-app-76eaa4b6682f0d90.js",
+      "static/chunks/app/blog/page-253e98304d13cfd4.js"
     ],
     "/build-result/page": [
       "static/chunks/webpack-880711be8a5c20af.js",
