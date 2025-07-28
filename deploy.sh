@@ -19,8 +19,8 @@ export NODE_ENV=production
 # Build frontend for production
 echo "📦 Building frontend for production..."
 cd /app/frontend
-npm ci --production
-npm run build
+yarn install --production
+yarn build
 
 # Verify build output
 if [ -d "build" ]; then
