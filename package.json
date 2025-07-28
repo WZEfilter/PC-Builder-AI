@@ -1,0 +1,22 @@
+{
+  "name": "pc-builder-ai",
+  "version": "1.0.0",
+  "description": "PC Builder AI - Complete PC building assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "cd frontend && NODE_ENV=production yarn build",
+    "dev": "supervisord -c supervisord.conf",
+    "postinstall": "cd frontend && yarn install && cd ../backend && pip install -r requirements.txt"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "author": "PC Builder AI",
+  "license": "MIT"
+}
