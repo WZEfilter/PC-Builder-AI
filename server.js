@@ -15,8 +15,19 @@ const backend = spawn('python', ['server.py'], {
     ...process.env,
     PATH: process.env.PATH,
     PYTHONPATH: path.join(__dirname, 'backend'),
+    BACKEND_PORT: '8001',
+    BACKEND_HOST: '0.0.0.0',
   },
-  stdio: 'inherit'
+  stdio: ['pipe', 'pipe', 'pipe']
+});
+
+// Log backend output
+backend.stdout.on('data', (data) => {
+  console.log(`[Backend] ${data.toString().trim()}`);
+});
+
+backend.stderr.on('data', (data) => {
+  console.error(`[Backend Error] ${data.toString().trim()}`);
 });
 
 // Start frontend process
@@ -35,18 +46,55 @@ if (fs.existsSync(path.join(frontendStandalonePath, 'server.js'))) {
       PORT: '3000',
       HOSTNAME: '0.0.0.0',
     },
-    stdio: 'inherit'
+    stdio: ['pipe', 'pipe', 'pipe']
   });
 } else {
-  console.log('🔄 Using Next.js development server');
-  frontend = spawn('yarn', ['start'], {
+  console.log('🔄 Building and starting Next.js...');
+  // Build first
+  const build = spawn('yarn', ['build'], {
     cwd: path.join(__dirname, 'frontend'),
     env: {
       ...process.env,
-      PORT: '3000',
-      HOST: '0.0.0.0',
+      NODE_ENV: 'production',
     },
     stdio: 'inherit'
+  });
+  
+  build.on('close', (code) => {
+    if (code === 0) {
+      console.log('✅ Frontend build complete, starting server...');
+      frontend = spawn('yarn', ['start'], {
+        cwd: path.join(__dirname, 'frontend'),
+        env: {
+          ...process.env,
+          PORT: '3000',
+          HOST: '0.0.0.0',
+        },
+        stdio: ['pipe', 'pipe', 'pipe']
+      });
+      
+      // Log frontend output
+      frontend.stdout.on('data', (data) => {
+        console.log(`[Frontend] ${data.toString().trim()}`);
+      });
+      
+      frontend.stderr.on('data', (data) => {
+        console.error(`[Frontend Error] ${data.toString().trim()}`);
+      });
+    } else {
+      console.error('❌ Frontend build failed');
+    }
+  });
+}
+
+// Log frontend output if it exists
+if (frontend) {
+  frontend.stdout.on('data', (data) => {
+    console.log(`[Frontend] ${data.toString().trim()}`);
+  });
+  
+  frontend.stderr.on('data', (data) => {
+    console.error(`[Frontend Error] ${data.toString().trim()}`);
   });
 }
 
