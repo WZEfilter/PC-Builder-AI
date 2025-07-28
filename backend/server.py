@@ -445,4 +445,17 @@ Write in a conversational, expert tone. Include Amazon affiliate links using tag
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    
+    # Get port from environment or use default
+    port = int(os.getenv("BACKEND_PORT", "8001"))
+    host = os.getenv("BACKEND_HOST", "0.0.0.0")
+    
+    logger.info(f"Starting PC Builder AI Backend on {host}:{port}")
+    
+    uvicorn.run(
+        app, 
+        host=host, 
+        port=port,
+        log_level="info",
+        access_log=True
+    )
